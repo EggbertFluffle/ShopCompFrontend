@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ViewState } from './components/lib/types';
 
 import LoginShopper from './components/login-shopper/LoginShopper';
+import ShoppingList from './components/shopping-list/ShoppingList';
 import Receipt from './components/receipt/Receipt';
 import RegisterShopper from './components/register-shopper/RegisterShopper';
 

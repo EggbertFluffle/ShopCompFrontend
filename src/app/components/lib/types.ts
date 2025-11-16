@@ -1,1 +1,1 @@
-export type ViewState = "register-shopper" | "login-shopper";
+export type ViewState = "register-shopper" | "receipt" | "shopping-list";
