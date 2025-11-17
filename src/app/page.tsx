@@ -1,7 +1,39 @@
+'use client';
+import { useState } from 'react';
+import { ViewState } from './components/lib/types';
+
+import LoginShopper from './components/login-shopper/LoginShopper';
+import ShoppingList from './components/shopping-list/ShoppingList';
+import Receipt from './components/receipt/Receipt';
+import RegisterShopper from './components/register-shopper/RegisterShopper';
+
 export default function Home() {
-  return (
-    <div>
-			<h1>Welcome to ShopComp</h1>
-	</div>
-  );
+	const [state, setState] = useState<ViewState>("register-shopper");
+
+	const displayComponent = (state: ViewState ) => {
+		switch (state) {
+			case "register-shopper":
+				return <RegisterShopper setState={setState} />;
+			case "receipt":
+				return <Receipt />;
+			case "login-shopper":
+				return <LoginShopper setState={setState} />;
+			case "shopping-list":
+				return <ShoppingList />;
+			default:
+				return <div>Invalid State</div>;
+		}
+	};
+
+	return (
+		<>
+			<select onChange={(e) => setState(e.target.value as ViewState)} value={state}>
+				<option value="register-shopper">Register Shopper</option>
+				<option value="login-shopper">Login Shopper</option>
+				<option value="shopping-list">Shopping List</option>
+				<option value="receipt">Receipt</option>
+			</select>
+			{displayComponent(state)}
+		</>
+	);
 }
