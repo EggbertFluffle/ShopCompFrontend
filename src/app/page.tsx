@@ -18,6 +18,8 @@ export default function Home() {
 				return <Receipt />;
 			case "login-shopper":
 				return <LoginShopper setState={setState} />;
+			case "shopping-list":
+				return <ShoppingList />;
 			default:
 				return <div>Invalid State</div>;
 		}
@@ -28,6 +30,7 @@ export default function Home() {
 			<select onChange={(e) => setState(e.target.value as ViewState)} value={state}>
 				<option value="register-shopper">Register Shopper</option>
 				<option value="login-shopper">Login Shopper</option>
+				<option value="shopping-list">Shopping List</option>
 				<option value="receipt">Receipt</option>
 			</select>
 			{displayComponent(state)}
