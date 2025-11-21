@@ -2,12 +2,13 @@ import { useRef, useState } from "react";
 import { ViewState } from "../lib/types";
 import { instance } from "../lib/Endpoint";
 import { register } from "next/dist/next-devtools/userspace/pages/pages-dev-overlay-setup";
+import { shopper } from "../lib/Shopper";
 
 export default function RegisterShopper({ setState }: { setState: (state: ViewState) => void }) {
 	const formRef = useRef<HTMLFormElement>(null);
 	const [registerError, setRegisterError] = useState("");
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		const username = formRef.current?.username.value;
 		const password = formRef.current?.password.value;
@@ -19,6 +20,8 @@ export default function RegisterShopper({ setState }: { setState: (state: ViewSt
 
 		instance.post("register-shopper", payload)
 			.then((response) => {
+				shopper.username = username;
+				shopper.uuid = response.data["shopper-uuid"];
 				console.log("Shopper-uuid: " + response.data["shopper-uuid"]);
 			})
 			.catch((error) => {

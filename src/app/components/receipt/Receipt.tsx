@@ -1,9 +1,15 @@
 import { useRef, useState } from "react";
 import Item from "../lib/Item";
 import ReceiptItem from "./ReceiptItem";
+import { instance } from "../lib/Endpoint";
+import { shopper } from "../lib/Shopper";
 
 export default function Receipt() {
-	const date = useRef<Date>(new Date());
+	const [ date, setDate ] = useState(Date.now().toString());
+	const [ store, setStore ] = useState({
+		"address": "25 Tobias Boland Way, Worcester, MA 01607",
+		"store-uuid": "d692e282-84d6-45f6-8959-15a07565f53d"
+	});
 	const [ items, setItems ] = useState<Item[]>([]);
 
 	function removeItem(uuid: string) {
@@ -17,9 +23,32 @@ export default function Receipt() {
 		"Chik-n-bap"
 	];
 
+	const submitReceipt = () => {
+		console.log(date);
+
+		const payload = {
+			"shopper-username": shopper.username,
+			"shopper-uuid": shopper.uuid,
+			"receipt": {
+				"date": date,
+				"store": store,
+				"items": items
+			}
+		};
+
+		instance.post("submit-receipt", payload)
+			.then((response) => {
+				console.log("Receipt-uuid: " + response.data["receipt-uuid"]);
+			})
+			.catch((error) => {
+				console.log(error);
+				console.log(`Received code ${error.status} with error: ${error.response.data.message}`);
+			});
+	}
+
 	return (
 		<div>
-			<p>Date: {date.current.getMonth()}/{date.current.getDay()}/{date.current.getFullYear()}</p>
+			<input onChange={(e) => setDate(e.target.value)} type="date" />
 			<select name="Store">
 				{
 					stores.map((store) => {
@@ -34,7 +63,8 @@ export default function Receipt() {
 					})
 				}
 			</div>
-			<button onClick={() => { setItems([...items, new Item("[item name]", 0, 0)]) }}>Add Item</button>
+			<button onClick={() => { setItems([...items, new Item("[item name]", 0, 0, "[item category]")]) }}>Add Item</button>
+			<button onClick={() => { submitReceipt() }}>Submit Receipt</button>
 		</div>
 	);
 }
