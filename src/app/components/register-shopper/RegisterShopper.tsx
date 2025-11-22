@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { ViewState } from "../lib/types";
 import { instance } from "../lib/Endpoint";
-import { register } from "next/dist/next-devtools/userspace/pages/pages-dev-overlay-setup";
 import { shopper } from "../lib/Shopper";
 
 export default function RegisterShopper({ setState }: { setState: (state: ViewState) => void }) {
@@ -10,17 +9,15 @@ export default function RegisterShopper({ setState }: { setState: (state: ViewSt
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		const username = formRef.current?.username.value;
-		const password = formRef.current?.password.value;
-
+		const formData = new FormData(formRef.current!);
 		const payload = {
-			"username": username,
-			"password": password
+			"username": formData.get("username") as string,
+			"password": formData.get("password") as string
 		};
 
 		instance.post("register-shopper", payload)
 			.then((response) => {
-				shopper.username = username;
+				shopper.username = payload.username;
 				shopper.uuid = response.data["shopper-uuid"];
 				console.log("Shopper-uuid: " + response.data["shopper-uuid"]);
 			})
