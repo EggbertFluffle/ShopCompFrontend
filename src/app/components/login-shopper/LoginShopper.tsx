@@ -20,6 +20,7 @@ export default function LoginShopper({ setState }: { setState: (state: ViewState
 			.then((response) => {
 				shopper.username = payload.username;
 				shopper.uuid = response.data["shopper-uuid"];
+				setState("receipt");
 			})
 			.catch((error) => {
 				console.log(`Received code ${error.status} with error: ${error.response.data.message}`);
