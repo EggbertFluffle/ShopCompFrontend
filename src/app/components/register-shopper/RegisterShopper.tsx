@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { ViewState } from "../lib/types";
 import { instance } from "../lib/Endpoint";
-import { register } from "next/dist/next-devtools/userspace/pages/pages-dev-overlay-setup";
 import { shopper } from "../lib/Shopper";
 
 export default function RegisterShopper({ setState }: { setState: (state: ViewState) => void }) {
@@ -22,7 +21,7 @@ export default function RegisterShopper({ setState }: { setState: (state: ViewSt
 			.then((response) => {
 				shopper.username = username;
 				shopper.uuid = response.data["shopper-uuid"];
-				console.log("Shopper-uuid: " + response.data["shopper-uuid"]);
+				setState("receipt");
 			})
 			.catch((error) => {
 				console.log(`Received code ${error.status} with error: ${error.response.data.message}`);

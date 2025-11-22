@@ -10,6 +10,6 @@ export default class Item {
 		this.price = price;
 		this.quantity = quantity;
 		this.category = category;
-		this.uuid = "";
+		this.uuid = ""; //CHANGE
 	}
 }
