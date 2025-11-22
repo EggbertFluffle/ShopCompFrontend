@@ -2,31 +2,10 @@ import { useState } from "react";
 import Item from "../lib/Item";
 
 export default function ReceiptItem({ item, removeItem }: { item: Item, removeItem: (uuid: string) => void }) {
-	const [name, setName] = useState("[item name]");
-	const [price, setPrice] = useState(0);
-	const [quantity, setQuantity] = useState(1);
-	const [category, setCatergory] = useState("[item category]");
-
-	function changeName(_name: string) {
-		setName(_name);
-		item.name = _name;
-	}
-
-	function changePrice(_price: number) {
-		setPrice(_price);
-		item.price = _price;
-	}
-
-	function changeQuantity(_quantity: number) {
-		_quantity = _quantity < 1 ? 1 : _quantity;
-		setQuantity(_quantity);
-		item.quantity = _quantity;
-	}
-
-	function changeCategory(_category: string) {
-		setCatergory(_category);
-		item.category = _category;
-	}
+	const [name, setName] = useState("");
+	const [price, setPrice] = useState("");
+	const [quantity, setQuantity] = useState("1");
+	const [category, setCatergory] = useState("");
 
 	return (
 		<div>
@@ -35,7 +14,8 @@ export default function ReceiptItem({ item, removeItem }: { item: Item, removeIt
 				<input
 					value={name}
 					onChange={(e) => {
-						changeName(e.target.value);
+						setName(e.target.value);
+						item.name = e.target.value;
 					}}
 				/>
 			</div>
@@ -45,7 +25,8 @@ export default function ReceiptItem({ item, removeItem }: { item: Item, removeIt
 				<input
 					value={price}
 					onChange={(e) => {
-						changePrice(e.target.valueAsNumber);
+						setPrice(e.target.value);
+						item.price = parseInt(e.target.value);
 					}}
 				/>
 			</div>
@@ -55,9 +36,9 @@ export default function ReceiptItem({ item, removeItem }: { item: Item, removeIt
 				<div>
 					<input
 						value={quantity}
-						type="number"
 						onChange={(e) => {
-							setQuantity(e.target.valueAsNumber);
+							setQuantity(e.target.value);
+							item.quantity = parseInt(e.target.value);
 						}}
 					/>
 				</div>
@@ -66,7 +47,8 @@ export default function ReceiptItem({ item, removeItem }: { item: Item, removeIt
 			<label>Category:</label>
 			<input
 				onChange={(e) => {
-					changeCategory(e.target.value);
+					setCatergory(e.target.value);
+					item.category = e.target.value;
 				}}
 			/>
 			<button
@@ -74,7 +56,7 @@ export default function ReceiptItem({ item, removeItem }: { item: Item, removeIt
 					removeItem(item.uuid);
 				}}
 			>
-				
+				Remove
 			</button>
 		</div>
 	);

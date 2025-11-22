@@ -4,12 +4,14 @@ import ReceiptItem from "./ReceiptItem";
 import { instance } from "../lib/Endpoint";
 import { shopper } from "../lib/Shopper";
 
+type ListedStore = { "chain-name": string, "address": string, "store-uuid": string };
+
 export default function Receipt() {
 	const [date, setDate] = useState(new Date().toISOString().split("T")[0]); //GPT
-
-	const [stores, setStores] = useState([]);
+	const [stores, setStores] = useState<ListedStore[]>([]);
 	const [storeUUID, setStoreUUID] = useState("");
 	const [items, setItems] = useState<Item[]>([]);
+	const [receiptError, setReceiptError] = useState("");
 
 	useEffect(() => { // I added it again because of the render infinite loop
 		instance
@@ -17,18 +19,15 @@ export default function Receipt() {
 			.then((response) => {
 				const chains = response.data.chains;
 
-				let newStores = [];
+				let newStores: { "chain-name": string, "address": string, "store-uuid": string }[] = [];
 
 				for (let chain of chains) {
 					for (let store of chain.stores) {
 						newStores.push({
-							"chain-name": chain.name,
-							address: store.address,
-							"store-uuid": store["store-uuid"],
-							// label: `${chain.name} (${s.address})`, //label for dropdown
-							// "store-uuid": s["store-uuid"], //not in the drop down but used to submit right UUIDs
-							// address: s.address,
-						});
+							"chain-name": chain.name as string,
+							"address": store.address as string,
+							"store-uuid": store["store-uuid"] as string,
+						} as ListedStore);
 					}
 				}
 
@@ -42,8 +41,33 @@ export default function Receipt() {
 	}
 
 	const submitReceipt = () => {
-		console.log(storeUUID);
+		if(storeUUID == "choose-store" || storeUUID == "") {
+			setReceiptError("Please choose a store before submitting a receipt.");
+			return;
+		}
+
+		if(items.length < 1) {
+			setReceiptError("Please add at lease one item to the receipt.");
+			return;
+		}
+
+		for(let i of items) {
+			if(i.name == "") {
+				setReceiptError("Please enter a valid name for all items.");
+				return;
+			} else if(isNaN(i.price) || isNaN(i.quantity) || i.price <= 0 || i.quantity < 1) {
+				setReceiptError(`Please enter a valid price and quantity for ${i.name}`);
+				return;
+			} else if(i.category == "") {
+				setReceiptError(`Please enter a valid category for ${i.name}`);
+				return;
+			}
+		}
+
+		console.log(date);
+
 		const payload = {
+			"shopper-username": shopper.username,
 			"shopper-uuid": shopper.uuid,
 			receipt: {
 				date: date,
@@ -54,7 +78,7 @@ export default function Receipt() {
 			},
 		};
 
-		console.log("PAYLOAD:", JSON.stringify(payload, null, 2)); //debugging (remove later)
+		console.log(payload); //debugging (remove later)
 
 		instance.post("submit-receipt", payload)
 			.then((response) => {
@@ -70,32 +94,22 @@ export default function Receipt() {
 
 	return (
 		<div>
+			{receiptError != "" ? <p>{receiptError}</p> : <></>}
 			<input onChange={(e) => setDate(e.target.value)} type="date" />
-			<select
-				name="Store"
-				onChange={(e) => {
-					setStoreUUID(e.target.value);
-				}}
-			>
-				{stores.map((store) => {
+			<select name="Store" onChange={(e) => { setStoreUUID(e.target.value); }} >
+				<option key={"choose-store"} value="choose-store" >Choose store</option>
+				{stores.map((store: ListedStore) => {
 					return (
-						<option
-							key={store["store-uuid"]}
-							value={store["store-uuid"]}
-						>
+						<option key={store["store-uuid"]} value={store["store-uuid"]} >
 							{store["chain-name"]} | {store.address}
 						</option>
-					);
+					)
 				})}
 			</select>
 			<div>
-				{items.map((el) => {
+				{items.map((el, index) => {
 					return (
-						<ReceiptItem
-							key={el.uuid}
-							item={el}
-							removeItem={removeItem}
-						/>
+						<ReceiptItem key={index} item={el} removeItem={removeItem} />
 					);
 				})}
 			</div>
@@ -103,7 +117,7 @@ export default function Receipt() {
 				onClick={() => {
 					setItems([
 						...items,
-						new Item("[item name]", 0, 0, "[item category]"),
+						new Item("", 0, 1, ""),
 					]);
 				}}
 			>

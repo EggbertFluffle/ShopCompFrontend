@@ -34,7 +34,7 @@ export default function Receipt() {
 					})
 				}
 			</div>
-			<button onClick={() => { setItems([...items, new Item("[item name]", 0, 0)]) }}>Add Item</button>
+			<button onClick={() => { setItems([...items, new Item("", 0, 0, "")]) }}>Add Item</button>
 		</div>
 	);
 }
