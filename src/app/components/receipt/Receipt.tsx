@@ -36,8 +36,12 @@ export default function Receipt() {
 			.catch((err) => console.error(err));
 	}, []);
 
-	function removeItem(uuid: string) {
-		setItems(items.filter((i) => i.uuid != uuid));
+	// function removeItem(uuid: string) {
+	// 	setItems(items.filter((i) => i.uuid != uuid));
+	// }
+
+	function removeItem(localID: number) {
+		setItems(items.filter((i) => i.localID !== localID));
 	}
 
 	const submitReceipt = () => {
@@ -107,9 +111,13 @@ export default function Receipt() {
 				})}
 			</select>
 			<div>
-				{items.map((el, index) => {
+				{items.map((el) => {
 					return (
-						<ReceiptItem key={index} item={el} removeItem={removeItem} />
+						<ReceiptItem
+							key={el.localID}
+							item={el}
+							removeItem={removeItem}
+						/>
 					);
 				})}
 			</div>
