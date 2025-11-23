@@ -53,7 +53,7 @@ export default function ReceiptItem({ item, removeItem }: { item: Item, removeIt
 			/>
 			<button
 				onClick={() => {
-					removeItem(item.uuid);
+					removeItem(item.localID);
 				}}
 			>
 				Remove
