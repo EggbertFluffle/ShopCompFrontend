@@ -1,15 +1,14 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { ViewState } from './components/lib/types';
 
 import LoginShopper from './components/login-shopper/LoginShopper';
-import ShoppingList from './components/shopping-list/ShoppingList';
+import ShoppingLists from './components/shopping-list/ShoppingLists';
 import Receipt from './components/receipt/Receipt';
 import RegisterShopper from './components/register-shopper/RegisterShopper';
 
 export default function Home() {
 	const [state, setState] = useState<ViewState>("register-shopper");
-	const userUuidRef = useRef(null);
 
 	const displayComponent = (state: ViewState ) => {
 		switch (state) {
@@ -20,7 +19,7 @@ export default function Home() {
 			case "login-shopper":
 				return <LoginShopper setState={setState} />;
 			case "shopping-list":
-				return <ShoppingList />;
+				return <ShoppingLists />;
 			default:
 				return <div>Invalid State</div>;
 		}
@@ -34,11 +33,6 @@ export default function Home() {
 				<option value="shopping-list">Shopping List</option>
 				<option value="receipt">Receipt</option>
 			</select>
-			<label> User UUID (for testing): </label>
-			<input
-				type="text"
-				ref={userUuidRef}
-			/>
 			{displayComponent(state)}
 		</>
 	);

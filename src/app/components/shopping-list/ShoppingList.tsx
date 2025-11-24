@@ -1,40 +1,83 @@
-import { useRef, useState } from "react";
-import Item from "../lib/Item";
-import ShoppingListItem from "./ShoppingListItem";
-
-export default function Receipt() {
-	const date = useRef<Date>(new Date());
-	const [ items, setItems ] = useState<Item[]>([]);
-
-	function removeItem(uuid: string) {
-		setItems(items.filter((i) => i.uuid != uuid));
-	}
-
-	const stores: string[] = [
-		"BJ's",
-		"Wawa",
-		"Tech Pizza",
-		"Chik-n-bap"
-	];
+"use client";
+import { useState } from 'react';
+import ShoppingListItem from './ShoppingListItem';
+type Item = {
+	"item-uuid": string,
+	name: string,
+	quantity: number
+};
+type ShoppingList = {
+	"shopping-list-uuid": string,
+	"name": string,
+	items: Item[]
+};
+export default function ShoppingList({
+	list,
+	modifyItem,
+	removeItem,
+	addItem,
+	deleteList,
+	modifyListName
+}: {
+	list: ShoppingList,
+	modifyItem: (item: Item, shoppingListUUID: string, shoppingListName: string) => void,
+	removeItem: (item: Item, shoppingListUUID: string, shoppingListName: string) => void,
+	addItem: (shoppingListUUID: string, shoppingListName: string) => void,
+	deleteList: (shoppingListUUID: string, shoppingListName: string) => void,
+	modifyListName: (shoppingListUUID: string, newName: string) => void
+}) {
+	const [editingName, setEditingName] = useState(false);
+	const [newName, setNewName] = useState(list["name"]);
 
 	return (
 		<div>
-			<p>Date: {date.current.getMonth()}/{date.current.getDay()}/{date.current.getFullYear()}</p>
-			<select name="Store">
+			<h3>
 				{
-					stores.map((store) => {
-						return <option key={store.toLowerCase()} value={store.toLowerCase()}>{store}</option>
-					})
+					editingName ? (
+						<span>
+							<input
+								value={newName}
+								onChange={(e) => setNewName(e.target.value)}
+							/>
+							<button onClick={() => {
+								modifyListName(list["shopping-list-uuid"], newName);
+								setEditingName(false);
+							}}>Save</button>
+							<button onClick={() => {
+								setNewName(list["name"]);
+								setEditingName(false);
+							}}>Cancel</button>
+						</span>
+					) : (
+						<span onClick={() => setEditingName(true)}>
+							{list["name"]}&#x270E;
+						</span>
+					)
 				}
-			</select>
+			</h3>
 			<div>
-				{
-					items.map((el) => {
-						return <ShoppingListItem key={el.uuid} item={el} removeItem={removeItem} />
-					})
-				}
+				<ul>
+					{list.items.map((item: Item) => (
+						<ShoppingListItem
+							key={item["item-uuid"]}
+							item={item}
+							shoppingListUUID={list["shopping-list-uuid"]}
+							shoppingListName={list["name"]}
+							modifyItem={modifyItem}
+							removeItem={removeItem}
+						/>
+					))}
+				</ul>
+				<button onClick={
+					() => addItem(list["shopping-list-uuid"], list["name"])}>
+						Add Item
+				</button>
+				<button onClick={
+					() => deleteList(list["shopping-list-uuid"], list["name"])}>
+						Delete List
+				</button>
 			</div>
-			<button onClick={() => { setItems([...items, new Item("", 0, 0, "")]) }}>Add Item</button>
 		</div>
 	);
+
 }
