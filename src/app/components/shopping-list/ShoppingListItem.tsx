@@ -21,6 +21,7 @@ export default function ReceiptItem({
 	const [name, setName] = useState(item.name);
 	const [quantityStr, setQuantityStr] = useState(String(item.quantity));
 	const [editingName, setEditingName] = useState(false);
+	const [editingQuantity, setEditingQuantity] = useState(false);
 	// keep local state in sync when parent item changes
 	useEffect(() => {
 		setName(item.name);
@@ -52,45 +53,35 @@ export default function ReceiptItem({
 						}}>Cancel</button>
 					</div>
 				) : <div onClick={() => setEditingName(true)}>
-					{name}
+					{name}&#x270E;
 					</div>
 			}
 			<div>
-				<button onClick={() => {
-					if (item.quantity > 0) {
-						const quantity = item.quantity - 1;
-						setQuantityStr(String(quantity));
-						modifyItem({
-							...item,
-							quantity: quantity
-						}, shoppingListUUID, shoppingListName)
-					}
-				}}>-</button>
-				<input
-					type="number"
-					value={quantityStr}
-					onChange={(e) => setQuantityStr(e.target.value)}
-					onBlur={() => {
+				{editingQuantity ? (
+				<div>
+					<input
+						type="number"
+						value={quantityStr}
+						onChange={(e) => setQuantityStr(e.target.value)}
+					/>
+					<button onClick={() => {
 						const quantity = parseInt(quantityStr) || 0;
 						if (quantity >= 0 && quantity !== item.quantity) {
 							modifyItem({
 								...item,
 								quantity: quantity
 							}, shoppingListUUID, shoppingListName)
-						} else {
-							// if invalid or unchanged, reset local display to actual item quantity
-							setQuantityStr(String(item.quantity));
 						}
-					}}
-				/>
-				<button onClick={() => {
-					const quantity = item.quantity + 1;
-					setQuantityStr(String(quantity));
-					modifyItem({
-						...item,
-						quantity: quantity
-					}, shoppingListUUID, shoppingListName)
-				}}>+</button>
+						setEditingQuantity(false);
+					}}>Save</button>
+					<button onClick={() => {
+						setQuantityStr(String(item.quantity)); // revert changes
+						setEditingQuantity(false);
+					}}>Cancel</button>
+				</div>
+				) : <span onClick={() => setEditingQuantity(true)}>
+					Quantity: {item.quantity}&#x270E;
+				</span>}
 			</div>
 			<button onClick={() => { removeItem(item, shoppingListUUID, shoppingListName) }}>&#x1F5D1;</button>
 		</div>

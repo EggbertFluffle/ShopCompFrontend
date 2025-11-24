@@ -21,6 +21,23 @@ export default function ShoppingLists() {
 		});
 	}, []);
 	const modifyItem = async (item: Item, shoppingListUUID: string, shoppingListName: string) => {
+		setLists((prevLists) => {
+			// optimistic update
+			return prevLists.map((list) => {
+				if (list["shopping-list-uuid"] === shoppingListUUID) {
+					return {
+						...list,
+						items: list.items.map((it: Item) => {
+							if (it["item-uuid"] === item["item-uuid"]) {
+								return item;
+							}
+							return it;
+						})
+					};
+				}
+				return list;
+			});
+		});
 		instance.post("modify-on-shopping-list", {
 			"shopper-uuid": shopper.uuid,
 			"shopper-username": shopper.username,
@@ -87,6 +104,18 @@ export default function ShoppingLists() {
 		});
 	};
 	const modifyListName = (shoppingListUUID: string, newName: string) => {
+		setLists((prevLists) => {
+			// optimistic update
+			return prevLists.map((list) => {
+				if (list["shopping-list-uuid"] === shoppingListUUID) {
+					return {
+						...list,
+						"name": newName
+					};
+				}
+				return list;
+			});
+		});
 		instance.post("modify-shopping-list", {
 			"shopper-uuid": shopper.uuid,
 			"shopper-username": shopper.username,

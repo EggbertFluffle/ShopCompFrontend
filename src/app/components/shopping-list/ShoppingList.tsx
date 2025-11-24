@@ -50,7 +50,7 @@ export default function ShoppingList({
 						</span>
 					) : (
 						<span onClick={() => setEditingName(true)}>
-							{list["name"]}
+							{list["name"]}&#x270E;
 						</span>
 					)
 				}
