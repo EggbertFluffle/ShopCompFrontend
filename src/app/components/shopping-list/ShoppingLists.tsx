@@ -10,6 +10,7 @@ type Item = {
 
 export default function ShoppingLists() {
 	const [lists, setLists] = useState<any[]>([]);
+	const [isEditing, setIsEditing] = useState<boolean>(false);
 	useEffect(() => {
 		instance.post("list-shopping-lists", {
 			"shopper-uuid": shopper.uuid
@@ -139,6 +140,8 @@ export default function ShoppingLists() {
 					addItem={addItem}
 					deleteList={deleteList}
 					modifyListName={modifyListName}
+					editing={isEditing}
+					setEditing={setIsEditing}
 				/>
 			))}
 			<button onClick={() => {

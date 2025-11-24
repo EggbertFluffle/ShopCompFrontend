@@ -9,13 +9,17 @@ export default function ReceiptItem({
 	shoppingListUUID,
 	shoppingListName,
 	modifyItem,
-	removeItem
+	removeItem,
+	editing,
+	setEditing
 } : {
 	item: Item,
 	shoppingListUUID: string,
 	shoppingListName: string,
 	modifyItem: (item: Item, shoppingListUUID: string, shoppingListName: string) => void,
-	removeItem: (item: Item, shoppingListUUID: string, shoppingListName: string) => void
+	removeItem: (item: Item, shoppingListUUID: string, shoppingListName: string) => void,
+	editing: boolean,
+	setEditing: (editing: boolean) => void
 }) {
 	// local editable state so the inputs remain editable while typing
 	const [name, setName] = useState(item.name);
@@ -46,14 +50,16 @@ export default function ReceiptItem({
 								}, shoppingListUUID, shoppingListName)
 							}
 							setEditingName(false);
+							setEditing(false);
 						}}>Save</button>
 						<button onClick={() => {
 							setName(item.name); // revert changes
 							setEditingName(false);
+							setEditing(false);
 						}}>Cancel</button>
 					</div>
-				) : <div onClick={() => setEditingName(true)}>
-					{name}&#x270E;
+				) : <div onClick={() => {if (!editing) {setEditingName(true); setEditing(true);}}}>
+					{name}{!editing ? (<>&#x270E;</>) : ""}
 					</div>
 			}
 			<div>
@@ -77,10 +83,11 @@ export default function ReceiptItem({
 					<button onClick={() => {
 						setQuantityStr(String(item.quantity)); // revert changes
 						setEditingQuantity(false);
+						setEditing(false);
 					}}>Cancel</button>
 				</div>
-				) : <span onClick={() => setEditingQuantity(true)}>
-					Quantity: {item.quantity}&#x270E;
+				) : <span onClick={() => {setEditingQuantity(true); setEditing(true);}}>
+					Quantity: {item.quantity}{!editing ? (<>&#x270E;</>) : ""}
 				</span>}
 			</div>
 			<button onClick={() => { removeItem(item, shoppingListUUID, shoppingListName) }}>&#x1F5D1;</button>

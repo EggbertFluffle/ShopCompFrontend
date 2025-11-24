@@ -17,14 +17,18 @@ export default function ShoppingList({
 	removeItem,
 	addItem,
 	deleteList,
-	modifyListName
+	modifyListName,
+	editing,
+	setEditing
 }: {
 	list: ShoppingList,
 	modifyItem: (item: Item, shoppingListUUID: string, shoppingListName: string) => void,
 	removeItem: (item: Item, shoppingListUUID: string, shoppingListName: string) => void,
 	addItem: (shoppingListUUID: string, shoppingListName: string) => void,
 	deleteList: (shoppingListUUID: string, shoppingListName: string) => void,
-	modifyListName: (shoppingListUUID: string, newName: string) => void
+	modifyListName: (shoppingListUUID: string, newName: string) => void,
+	editing: boolean,
+	setEditing: (editing: boolean) => void
 }) {
 	const [editingName, setEditingName] = useState(false);
 	const [newName, setNewName] = useState(list["name"]);
@@ -42,15 +46,17 @@ export default function ShoppingList({
 							<button onClick={() => {
 								modifyListName(list["shopping-list-uuid"], newName);
 								setEditingName(false);
+								setEditing(false);
 							}}>Save</button>
 							<button onClick={() => {
 								setNewName(list["name"]);
 								setEditingName(false);
+								setEditing(false);
 							}}>Cancel</button>
 						</span>
 					) : (
-						<span onClick={() => setEditingName(true)}>
-							{list["name"]}&#x270E;
+						<span onClick={() => {if (!editing) {setEditingName(true); setEditing(true);}}}>
+							{list["name"]}{!editing ? (<>&#x270E;</>) : ""}
 						</span>
 					)
 				}
@@ -65,6 +71,8 @@ export default function ShoppingList({
 							shoppingListName={list["name"]}
 							modifyItem={modifyItem}
 							removeItem={removeItem}
+							editing={editing}
+							setEditing={setEditing}
 						/>
 					))}
 				</ul>
