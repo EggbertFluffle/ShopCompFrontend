@@ -6,7 +6,7 @@ export default class Item {
 	quantity: number;
 	category: string;
 	uuid: string;
-	localID: number;
+	localID: string;
 
 	constructor(
 		name: string,

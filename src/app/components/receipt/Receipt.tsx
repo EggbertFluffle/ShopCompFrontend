@@ -40,7 +40,7 @@ export default function Receipt() {
 	// 	setItems(items.filter((i) => i.uuid != uuid));
 	// }
 
-	function removeItem(localID: number) {
+	function removeItem(localID: string) {
 		setItems(items.filter((i) => i.localID !== localID));
 	}
 
