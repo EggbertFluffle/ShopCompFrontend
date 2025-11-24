@@ -79,6 +79,7 @@ export default function ReceiptItem({
 							}, shoppingListUUID, shoppingListName)
 						}
 						setEditingQuantity(false);
+						setEditing(false);
 					}}>Save</button>
 					<button onClick={() => {
 						setQuantityStr(String(item.quantity)); // revert changes
