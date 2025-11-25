@@ -55,7 +55,9 @@ export default function Receipt() {
 			return;
 		}
 
+
 		for(let i of items) {
+			console.log(i.price);
 			if(i.name == "") {
 				setReceiptError("Please enter a valid name for all items.");
 				return;
@@ -87,6 +89,8 @@ export default function Receipt() {
 		instance.post("submit-receipt", payload)
 			.then((response) => {
 				console.log("Receipt-uuid: " + response.data["receipt-uuid"]);
+				setReceiptError("Receipt submitted sucessfully!");
+				setItems([]);
 			})
 			.catch((error) => {
 				console.log(error);

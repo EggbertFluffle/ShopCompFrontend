@@ -26,7 +26,7 @@ export default function ReceiptItem({ item, removeItem }: { item: Item, removeIt
 					value={price}
 					onChange={(e) => {
 						setPrice(e.target.value);
-						item.price = parseInt(e.target.value);
+						item.price = parseFloat(e.target.value);
 					}}
 				/>
 			</div>
