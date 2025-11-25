@@ -87,7 +87,7 @@ export default function ReceiptItem({
 						setEditing(false);
 					}}>Cancel</button>
 				</div>
-				) : <span onClick={() => {setEditingQuantity(true); setEditing(true);}}>
+				) : <span onClick={() => {if (!editing) setEditingQuantity(true); setEditing(true);}}>
 					Quantity: {item.quantity}{!editing ? (<button>&#x270E;</button>) : ""}
 				</span>}
 			</div>
