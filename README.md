@@ -4,4 +4,7 @@ Team members:
 1. Harrison
 2. Nikita
 3. Bryce
-4. Andry (unc) HAPPY BIRTHDAY
+4. Andry (unc) HAPPY BIRTHDAY (our special birthday boy)
+
+HAPPY BIRTHDAY ANDRY!!!
+ -From Harrison and Nikita
