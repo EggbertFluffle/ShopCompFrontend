@@ -1,0 +1,496 @@
+commit 29593f9fab272b31bcf24dce6c008315d3f58c85
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Mon Nov 24 15:01:13 2025 -0500
+
+    🐛 fix(shopping-list): exit edit mode on save
+    
+    When saving an edited quantity the component did not exit the overall
+    editing mode, leaving the UI in an inconsistent state. Call
+    setEditing(false) after a successful save so the item leaves edit mode
+    and the UI reflects the saved value.
+
+ src/app/components/shopping-list/ShoppingListItem.tsx | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 7865ea03836616b7c9d32e430390c8586c0863a7
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Mon Nov 24 14:43:35 2025 -0500
+
+    ✨ feat(shopping-list): add global editing state
+    
+    Introduce a single-edit mode to prevent multiple inline edits across
+    shopping lists and items. Add isEditing state in ShoppingLists and pass
+    editing/setEditing props down to ShoppingList and ShoppingListItem so
+    only one field can be edited at a time. Save/Cancel handlers now reset
+    the global editing flag and the edit icon is hidden while another field
+    is being edited.
+    
+    Files changed:
+    - src/app/components/shopping-list/ShoppingLists.tsx
+    - src/app/components/shopping-list/ShoppingList.tsx
+    - src/app/components/shopping-list/ShoppingListItem.tsx
+
+ src/app/components/shopping-list/ShoppingList.tsx     | 16 ++++++++++++----
+ src/app/components/shopping-list/ShoppingListItem.tsx | 19 +++++++++++++------
+ src/app/components/shopping-list/ShoppingLists.tsx    |  3 +++
+ 3 files changed, 28 insertions(+), 10 deletions(-)
+
+commit d2cbf0a94f7a94f16d3c906307c03afd48db24ed
+Merge: 7146734 01ff3f7
+Author: Nikita Ostapenko <119273404+catmajor@users.noreply.github.com>
+Date:   Mon Nov 24 14:04:30 2025 -0500
+
+    Merge pull request #41 from EggbertFluffle/40-integrate-api-for-shopping-lists
+    
+    40 integrate api for shopping lists
+
+commit 01ff3f72d0bbe986d70a98a5a74415cfb41a8f4b
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Mon Nov 24 14:03:10 2025 -0500
+
+    ✏️ feat(shopping-list): inline edit & optimistic
+    
+    Add inline editing for shopping list names, item names, and item
+    quantities. Introduce an editing mode for quantities with Save/Cancel
+    controls and a pencil indicator for editable fields. Apply optimistic
+    UI updates in modifyItem and modifyListName so changes appear locally
+    immediately while the server request is in flight.
+
+ src/app/components/shopping-list/ShoppingList.tsx  |  2 +-
+ .../components/shopping-list/ShoppingListItem.tsx  | 49 +++++++++-------------
+ src/app/components/shopping-list/ShoppingLists.tsx | 29 +++++++++++++
+ 3 files changed, 50 insertions(+), 30 deletions(-)
+
+commit 31dc8e4a84bfe9153ea75848ec995d0d0d07a256
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Sun Nov 23 04:34:23 2025 -0500
+
+    ✨ feat(shopping-list): add shopping lists UI & actions
+    
+    Introduce ShoppingLists component and update shopping list
+    components to provide create, delete, add, remove and modify item
+    actions. ShoppingList and ShoppingListItem converted to client
+    components with local editable state and proper input handling.
+    API interactions use the axios instance to post updates and refresh
+    lists from the server.
+    
+    Update page.tsx to render ShoppingLists and replace the old test
+    UUID input. Also change axios baseURL env var key to
+    NEXT_PUBLIC_API_BASE.
+
+ src/app/components/lib/Endpoint.ts                 |   2 +-
+ src/app/components/shopping-list/ShoppingList.tsx  | 103 ++++++++++++-----
+ .../components/shopping-list/ShoppingListItem.tsx  | 113 +++++++++++++++----
+ src/app/components/shopping-list/ShoppingLists.tsx | 123 +++++++++++++++++++++
+ src/app/page.tsx                                   |  12 +-
+ 5 files changed, 291 insertions(+), 62 deletions(-)
+
+commit 7146734f903262830559e2dee34d3d4c268d5088
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Sun Nov 23 02:31:51 2025 -0500
+
+    ✨ feat: use env API base URL & add test UUID input
+    
+    Replace hardcoded API base URL with NEXT_PUBLIC_API_BASE_URL so the
+    frontend can target environment-specific endpoints. Add a useRef-backed
+    text input on the Home page to supply a User UUID for manual testing
+    of shopper flows.
+
+ src/app/components/lib/Endpoint.ts | 2 +-
+ src/app/page.tsx                   | 8 +++++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+commit 49cee19d202fc823c10f05cb47b7922ae4c0f2a9
+Merge: 6ee518d cce91e6
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Sat Nov 22 20:35:42 2025 -0500
+
+    Merge pull request #39 from EggbertFluffle/38-removing-items-from-receipt
+    
+    Fixed removing items from receipt bug
+
+commit cce91e61c7e3e68363e0e88b5750c670f3934956
+Author: Andry <andry.nasief@gmail.com>
+Date:   Sat Nov 22 20:15:23 2025 -0500
+
+    fixed removing items from receipt bug
+
+ src/app/components/lib/Item.ts             | 13 +++++++++++--
+ src/app/components/receipt/Receipt.tsx     | 16 ++++++++++++----
+ src/app/components/receipt/ReceiptItem.tsx |  2 +-
+ 3 files changed, 24 insertions(+), 7 deletions(-)
+
+commit 6ee518d3b6131b3af640ac6069868b4dd74f0bed
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Sat Nov 22 17:54:53 2025 -0500
+
+    added state change to login shopper
+
+ src/app/components/login-shopper/LoginShopper.tsx | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 40d921a4de31313b79762b96a86d4091ab871472
+Merge: b58b5fa 62da4b9
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Sat Nov 22 17:51:38 2025 -0500
+
+    Merge pull request #34 from EggbertFluffle/32-login-shopper
+    
+    login shopper completed
+
+commit b58b5fa3713d67e35ac4faf597482dd6ce0987b7
+Merge: a449fb1 79b8b80
+Author: Andry Nasief <125379087+andrynasief@users.noreply.github.com>
+Date:   Sat Nov 22 17:50:51 2025 -0500
+
+    Merge pull request #36 from EggbertFluffle/12-submit-receipt
+    
+    12 submit receipt
+
+commit 79b8b80f457e558566967b4df75be274091cd27a
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Sat Nov 22 17:50:06 2025 -0500
+
+    receipt item checks w/ andry <3
+
+ src/app/components/receipt/Receipt.tsx             | 76 +++++++++++++---------
+ src/app/components/receipt/ReceiptItem.tsx         | 44 ++++---------
+ .../register-shopper/RegisterShopper.tsx           |  3 +-
+ src/app/components/shopping-list/ShoppingList.tsx  |  2 +-
+ 4 files changed, 60 insertions(+), 65 deletions(-)
+
+commit 5249d489116a1d48c1350b10275770212cde205f
+Author: Andry <andry.nasief@gmail.com>
+Date:   Sat Nov 22 17:01:40 2025 -0500
+
+    w.i.p.
+
+ package-lock.json                          |  13 ---
+ src/app/components/lib/Item.ts             |   2 +-
+ src/app/components/receipt/Receipt.tsx     | 125 ++++++++++++++++++++---------
+ src/app/components/receipt/ReceiptItem.tsx |  58 +++++++++----
+ 4 files changed, 131 insertions(+), 67 deletions(-)
+
+commit 62da4b9d85564607b1feb0193e552bd5340617ee
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Sat Nov 22 14:44:14 2025 -0500
+
+    login shopper completed
+
+ src/app/components/login-shopper/LoginShopper.tsx  | 39 ++++++++++++++++------
+ .../register-shopper/RegisterShopper.tsx           | 11 +++---
+ 2 files changed, 32 insertions(+), 18 deletions(-)
+
+commit a449fb144c6b65b72246cbd5121743993ba3906f
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Fri Nov 21 15:42:42 2025 -0500
+
+    basic receipt submission frontend
+
+ src/app/components/lib/Item.ts                     |  8 ++---
+ src/app/components/lib/Shopper.ts                  |  4 +++
+ src/app/components/receipt/Receipt.tsx             | 36 ++++++++++++++++++++--
+ src/app/components/receipt/ReceiptItem.tsx         | 31 +++++++++++++++----
+ .../register-shopper/RegisterShopper.tsx           |  5 ++-
+ 5 files changed, 70 insertions(+), 14 deletions(-)
+
+commit 02cad97e14edc20404d2ddc995943c9eeb781040
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Thu Nov 20 23:20:53 2025 -0500
+
+    added some scripts to .gitignore
+
+ .gitignore | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 98204881b0e194399de63786bc44e705842eac46
+Merge: 341cc03 2a82366
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Thu Nov 20 23:11:21 2025 -0500
+
+    Merge pull request #31 from EggbertFluffle/30-connect-register-shopper-and-login-shopper-to-lambdas
+    
+    finished registering new shoppers
+
+commit 2a823666b5096b5782240328151fcf1a1c76a181
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Thu Nov 20 23:08:36 2025 -0500
+
+    finished registering new shoppers
+
+ package-lock.json                                  | 129 ++++++++++++++++++---
+ package.json                                       |   1 +
+ src/app/components/lib/Endpoint.ts                 |   5 +
+ .../register-shopper/RegisterShopper.tsx           |  42 +++++--
+ 4 files changed, 152 insertions(+), 25 deletions(-)
+
+commit 341cc032ce6c03a19c36ef5551e1eb7e9c4afe3e
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Mon Nov 17 14:39:59 2025 -0500
+
+    Update README.md
+    
+    Co-authored-by: catmajor <nikitul2005@gmail.com>
+
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit f1809c1af972798bf5b8e85cb6fa581949b939a3
+Author: Bryce Lukacs <80437073+Turretlez@users.noreply.github.com>
+Date:   Mon Nov 17 14:10:12 2025 -0500
+
+    Happy birthday Andre
+    
+    HAPPY BIRTHDAY ANDRE
+
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 5589eaa91e6481e1417b7e38360cbf7cf8926e25
+Merge: 1912eb5 6f3ecd0
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Mon Nov 17 13:52:26 2025 -0500
+
+    Merge pull request #29 from EggbertFluffle/1-wish-andry-a-happy-birthday-today
+    
+    Wishing andry a happy birthday! happy birthday unc!
+
+commit 6f3ecd0af4f8ef6095df245145cb9db71176b936
+Merge: d56c62c 1912eb5
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Mon Nov 17 13:52:15 2025 -0500
+
+    Merge branch 'dev' into 1-wish-andry-a-happy-birthday-today
+
+commit d56c62c626ef98425a2f17028cfa51f60d58784d
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Mon Nov 17 13:51:26 2025 -0500
+
+    Wishing andry a happy birthday! happy birthday unc!
+    Co-authored-by: catmajor <nikitul2005@gmail.com>
+
+ README.md | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 1912eb59f4e030140f04ef628290e9decf5d0bff
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Mon Nov 17 13:00:08 2025 -0500
+
+    ✨ feat: add shopping-list and login-shopper views
+    
+    Update ViewState type to include 'login-shopper' and add UI
+    handling for both 'login-shopper' and 'shopping-list' in page.tsx.
+    Adds select option for Shopping List and renders corresponding
+    components when selected.
+
+ src/app/components/lib/types.ts | 2 +-
+ src/app/page.tsx                | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+commit f070b11b3c7292a6740da7ae15e70d026f5c1352
+Merge: 32a1ab8 f30ba11
+Author: Harrison DiAmbrosio <81518632+EggbertFluffle@users.noreply.github.com>
+Date:   Sun Nov 16 16:31:36 2025 -0500
+
+    Merge pull request #28 from EggbertFluffle/3-login-shopper
+    
+    ✨ feat(ui): add login shopper view and selector
+    
+    peak
+
+commit f30ba1130be13e989fb47412bac374b3c6400b45
+Merge: fcb31c9 32a1ab8
+Author: Harrison DiAmbrosio <81518632+EggbertFluffle@users.noreply.github.com>
+Date:   Sun Nov 16 16:31:24 2025 -0500
+
+    Merge branch 'dev' into 3-login-shopper
+
+commit 32a1ab8265df45c0ff5bc55defbc5cb32c9a3752
+Merge: f091e3c affb8ff
+Author: Harrison DiAmbrosio <81518632+EggbertFluffle@users.noreply.github.com>
+Date:   Sun Nov 16 16:29:34 2025 -0500
+
+    Merge pull request #27 from EggbertFluffle/14-create-shopping-list
+    
+    ✨ feat(shopping): add shopping-list UI
+    
+    hi <3
+    
+    -Eggbert
+
+commit fcb31c9cb2d35f4d8c927536a6c329fd75ab705a
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Sun Nov 16 16:25:23 2025 -0500
+
+    ✨ feat(ui): add login shopper view and selector
+    
+    Add LoginShopper component and extend ViewState with
+    'login-shopper'. Update page.tsx to render login, register and
+    receipt views and add a select control to switch between them.
+    Remove duplicate Receipt rendering from the register view.
+
+ src/app/components/lib/types.ts                   |  2 +-
+ src/app/components/login-shopper/LoginShopper.tsx | 41 +++++++++++++++++++++++
+ src/app/page.tsx                                  | 19 ++++++++---
+ 3 files changed, 56 insertions(+), 6 deletions(-)
+
+commit affb8ff17248eebf961013e7dcede0c1313df2cb
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Sun Nov 16 16:18:21 2025 -0500
+
+    ✨ feat(shopping): add shopping-list UI
+    
+    Add ShoppingList and ShoppingListItem components to allow
+    creating and editing shopping list items.
+    Update ViewState type to include "shopping-list" and "receipt".
+    Wire ShoppingList into src/app/page.tsx and add a temporary
+    selector for testing.
+    Also commit includes automatic package-lock.json updates.
+
+ package-lock.json                                  | 13 -------
+ src/app/components/lib/types.ts                    |  2 +-
+ src/app/components/shopping-list/ShoppingList.tsx  | 40 ++++++++++++++++++++++
+ .../components/shopping-list/ShoppingListItem.tsx  | 30 ++++++++++++++++
+ src/app/page.tsx                                   | 15 +++++++-
+ 5 files changed, 85 insertions(+), 15 deletions(-)
+
+commit f091e3cc776560492a6b4deb70ac4326847bc924
+Merge: db62612 3aeaa58
+Author: Harrison DiAmbrosio <81518632+EggbertFluffle@users.noreply.github.com>
+Date:   Sun Nov 16 15:50:34 2025 -0500
+
+    Merge pull request #26 from EggbertFluffle/8-create-receipt
+    
+    create receipt, items have uuids, remove items, and edit items
+
+commit 3aeaa58c00817ad346ea0cd37854451dfce164e9
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Sun Nov 16 12:39:30 2025 -0500
+
+    create receipt, items have uuids, remove items, and edit items
+
+ .editorconfig                                      | 10 +++
+ package-lock.json                                  | 16 ++++-
+ package.json                                       |  3 +-
+ src/app/components/lib/Item.ts                     | 15 +++++
+ src/app/components/receipt/Receipt.tsx             | 40 ++++++++++++
+ src/app/components/receipt/ReceiptItem.tsx         | 36 +++++++++++
+ .../register-shopper/RegisterShopper.tsx           | 72 +++++++++++-----------
+ src/app/layout.tsx                                 | 20 +++---
+ src/app/page.tsx                                   | 32 ++++++----
+ 9 files changed, 184 insertions(+), 60 deletions(-)
+
+commit db62612255c1a8870febcbceee13d6cc717d69b2
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Fri Nov 14 19:17:55 2025 -0500
+
+    I think there was a merge request?
+
+ package-lock.json | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+commit 90496845f341127c9ecfe844d89508057b58fee8
+Merge: 9d6b25f 6c20149
+Author: Harrison DiAmbrosio <81518632+EggbertFluffle@users.noreply.github.com>
+Date:   Fri Nov 14 15:41:54 2025 -0500
+
+    Merge pull request #25 from EggbertFluffle/2-register-shopper
+    
+    ✨ feat(register-shopper): add RegisterShopper
+    love u pookie
+
+commit 6c201492fc6e28c453473670a3a5df74693e9295
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Fri Nov 14 15:38:27 2025 -0500
+
+    ✨ feat(register-shopper): add RegisterShopper
+    
+    Add RegisterShopper component and ViewState type, and wire it
+    into the home page. Uses client-side state to toggle views and
+    renders a simple registration form with name/password fields.
+    
+    Update package-lock.json (auto-generated) to reflect dependency
+    metadata changes.
+
+ package-lock.json                                  | 13 -------
+ src/app/components/lib/types.ts                    |  1 +
+ .../register-shopper/RegisterShopper.tsx           | 41 ++++++++++++++++++++++
+ src/app/page.tsx                                   | 17 +++++++--
+ 4 files changed, 56 insertions(+), 16 deletions(-)
+
+commit 9d6b25f7ea9fa90b386a12a27bb954831f1578aa
+Merge: f6242e1 9a43ef8
+Author: Nikita Ostapenko <119273404+catmajor@users.noreply.github.com>
+Date:   Fri Nov 14 15:04:35 2025 -0500
+
+    Merge pull request #24 from EggbertFluffle/origin/1-wish-andry-a-happy-birthday-today
+    
+    🎂 docs: HAPPY BIRTHDAY ANDRY
+
+commit 9a43ef855dd7d0a764498051184b8930b56d3943
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Fri Nov 14 15:01:06 2025 -0500
+
+    🎂 docs: HAPPY BIRTHDAY ANDRY
+    
+    Added GitHub handles for all team members in README and added a
+    birthday shoutout for Andry. This clarifies contributor usernames and
+    preserves the (unc) HAPPY BIRTHDAY note.
+
+ README.md | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit f6242e1c5cdf269ff5cc0e71d7b44f822a158f7b
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Fri Nov 14 14:22:35 2025 -0500
+
+    cleaned up next app
+
+ src/app/favicon.ico     | Bin 25931 -> 0 bytes
+ src/app/globals.css     |  42 ---------------
+ src/app/layout.tsx      |  21 +-------
+ src/app/page.module.css | 141 ------------------------------------------------
+ src/app/page.tsx        |  65 ++--------------------
+ 5 files changed, 4 insertions(+), 265 deletions(-)
+
+commit f0e7b4fded58fdf8738b46cea1e14306bdd7da8b
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Fri Nov 14 14:20:03 2025 -0500
+
+    started app
+
+ .gitignore              |   41 +
+ eslint.config.mjs       |   18 +
+ next.config.ts          |    8 +
+ package-lock.json       | 5963 +++++++++++++++++++++++++++++++++++++++++++++++
+ package.json            |   25 +
+ public/file.svg         |    1 +
+ public/globe.svg        |    1 +
+ public/next.svg         |    1 +
+ public/vercel.svg       |    1 +
+ public/window.svg       |    1 +
+ src/app/favicon.ico     |  Bin 0 -> 25931 bytes
+ src/app/globals.css     |   42 +
+ src/app/layout.tsx      |   32 +
+ src/app/page.module.css |  141 ++
+ src/app/page.tsx        |   66 +
+ tsconfig.json           |   34 +
+ 16 files changed, 6375 insertions(+)
+
+commit 57b09d5ca4e732810e3ce316c79daae161a2e332
+Author: Nikita Ostapenko <119273404+catmajor@users.noreply.github.com>
+Date:   Fri Nov 14 14:00:41 2025 -0500
+
+    🎂HAPPY BIRTHDAY ANDRY
+
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit bee01591db81f884acf93f0d28fa5abf38a17037
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Fri Nov 14 13:52:57 2025 -0500
+
+    batman
+
+ README.md | 7 +++++++
+ 1 file changed, 7 insertions(+)
