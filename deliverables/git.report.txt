@@ -1,3 +1,158 @@
+commit 2f137e296feb0076cc044837f2a8db251122e8ac
+Merge: b431875 32148e5
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Tue Nov 25 13:34:55 2025 -0500
+
+    Merge branch 'dev' of github.com:EggbertFluffle/ShopCompFrontend into dev
+
+commit b431875d5aebea20c357b0edd0224ce057c62602
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Tue Nov 25 13:34:32 2025 -0500
+
+    🐛 fix(shopping-list): cancel editing on delete
+    
+    When deleting a shopping list or removing an item, clear any active
+    editing state (name or quantity) so the UI doesn't remain in edit mode
+    after the delete action.
+    
+    Files changed:
+    - src/app/components/shopping-list/ShoppingList.tsx
+    - src/app/components/shopping-list/ShoppingListItem.tsx
+
+ src/app/components/shopping-list/ShoppingList.tsx     | 7 ++++++-
+ src/app/components/shopping-list/ShoppingListItem.tsx | 7 ++++++-
+ 2 files changed, 12 insertions(+), 2 deletions(-)
+
+commit 32148e5bd44bee9e0b374650d2ec35cf60759bc0
+Merge: 8e52b19 e123a47
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Tue Nov 25 13:27:24 2025 -0500
+
+    Merge branch 'dev' of github.com:EggbertFluffle/ShopCompFrontend into dev
+    merge
+
+commit 8e52b19329390605cde57b28e49c8458ff46304c
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Tue Nov 25 13:27:13 2025 -0500
+
+    bug: receipt items require price >= 1, clear receipt after submit
+
+ src/app/components/receipt/Receipt.tsx     | 4 ++++
+ src/app/components/receipt/ReceiptItem.tsx | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+commit e123a4704a1e52814992e8058b1c1efb7a58cb07
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Tue Nov 25 13:25:05 2025 -0500
+
+    🐛 fix: Prevent quantity edit while editing
+    
+    Prevent re-enabling quantity edit when the component is already in
+    editing mode. Add a guard in the onClick handler of
+    src/app/components/shopping-list/ShoppingListItem.tsx to only call
+    setEditingQuantity(true) when editing is false. This avoids unintended
+    state transitions and double-edit UI when clicking the quantity.
+
+ src/app/components/shopping-list/ShoppingListItem.tsx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 68980c18792583ae33ef918ae93cde72964afc31
+Merge: 07c879a 8a9e4d0
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Tue Nov 25 10:19:29 2025 -0500
+
+    Merge branch 'dev' of github.com:EggbertFluffle/ShopCompFrontend into dev
+    merging
+
+commit 07c879a8baac2b9f2d4f14801d8aabb0922d3d0e
+Author: Harrison DiAmbrosio <hdiambrosio@gmail.com>
+Date:   Tue Nov 25 10:19:10 2025 -0500
+
+    deliverables for iteration 1
+
+ deliverables/git.report.txt | 496 ++++++++++++++++++++++++++++++++++++++++++++
+ package-lock.json           |  13 ++
+ 2 files changed, 509 insertions(+)
+
+commit 8a9e4d0de0e399073880f110161b7a57c79a4ac9
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Mon Nov 24 21:30:01 2025 -0500
+
+    🔧 fix(lib): add fallback API base URL
+    
+    Provide a default base URL for the axios instance when the
+    NEXT_PUBLIC_API_BASE environment variable is not set. This prevents
+    undefined baseURL errors during development and CI and ensures API
+    calls have a sensible default.
+    
+    File: src/app/components/lib/Endpoint.ts
+
+ src/app/components/lib/Endpoint.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 6839666470edfb5ba6ad3fe259c8623c6a8816d6
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Mon Nov 24 21:20:41 2025 -0500
+
+    🗑️ ci(workflow): remove static export step
+    
+    Removed the 'npm run export' step from the GitHub Actions workflow.
+    The Next.js build now handles output and deployment without an
+    additional export step.
+
+ .github/workflows/deploy-next-to-s3.yml | 3 ---
+ 1 file changed, 3 deletions(-)
+
+commit 98d191c354d395867aa0df434de2d99c334e13ec
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Mon Nov 24 21:14:20 2025 -0500
+
+    ♿️ refactor(shopping-list): use buttons for edit icons
+    
+    Replaced inline pencil glyphs with <button> elements in
+    ShoppingList.tsx and ShoppingListItem.tsx. This makes the edit controls
+    focusable and keyboard-operable, improving accessibility and semantics.
+
+ src/app/components/shopping-list/ShoppingList.tsx     | 2 +-
+ src/app/components/shopping-list/ShoppingListItem.tsx | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 5fa6046c736bdc2e6f6f1dc0a31d36990c50a4f4
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Mon Nov 24 16:00:43 2025 -0500
+
+    🚀 ci: add deploy-next-to-s3 workflow
+    
+    Add a GitHub Actions workflow that builds and exports the Next.js
+    site and syncs the generated ./out directory to the S3 bucket
+    rho-shop-comp on pushes to the main branch. The job installs Node 22,
+    runs npm install/build/export, and uses aws-actions/configure-aws-
+    credentials with repository secrets to authenticate.
+    
+    Make sure AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are set in the
+    repo secrets. Update aws-region or bucket name in the workflow if
+    different values are required.
+
+ .github/workflows/deploy-next-to-s3.yml | 39 +++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+
+commit 00b038884b761006ef2644c374502904865c47c4
+Author: Nikita Ostapenko <nikitul2005@gmail.com>
+Date:   Mon Nov 24 15:59:37 2025 -0500
+
+    ♻️ refactor(item): change localID to string
+    
+    Change Item.localID from number to string and update usages in the
+    Receipt component. Also enable static export in next.config.ts by
+    setting output: "export".
+    
+    BREAKING CHANGE: Item.localID type changed from number to string.
+
+ next.config.ts                         | 1 +
+ src/app/components/lib/Item.ts         | 2 +-
+ src/app/components/receipt/Receipt.tsx | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+
 commit 29593f9fab272b31bcf24dce6c008315d3f58c85
 Author: Nikita Ostapenko <nikitul2005@gmail.com>
 Date:   Mon Nov 24 15:01:13 2025 -0500
