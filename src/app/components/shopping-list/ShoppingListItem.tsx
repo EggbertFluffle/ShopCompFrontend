@@ -91,7 +91,12 @@ export default function ReceiptItem({
 					Quantity: {item.quantity}{!editing ? (<button>&#x270E;</button>) : ""}
 				</span>}
 			</div>
-			<button onClick={() => { removeItem(item, shoppingListUUID, shoppingListName) }}>&#x1F5D1;</button>
+			<button onClick={() => {
+				if (editing && (editingName || editingQuantity)) {
+					setEditing(false);
+				}
+				removeItem(item, shoppingListUUID, shoppingListName)
+			}}>&#x1F5D1;</button>
 		</div>
 	)
 }

@@ -81,7 +81,12 @@ export default function ShoppingList({
 						Add Item
 				</button>
 				<button onClick={
-					() => deleteList(list["shopping-list-uuid"], list["name"])}>
+					() => {
+						if (editing && editingName) {
+							setEditing(false);
+						}
+						deleteList(list["shopping-list-uuid"], list["name"])
+					}}>
 						Delete List
 				</button>
 			</div>
