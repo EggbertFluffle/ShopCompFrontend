@@ -56,7 +56,7 @@ export default function ShoppingList({
 						</span>
 					) : (
 						<span onClick={() => {if (!editing) {setEditingName(true); setEditing(true);}}}>
-							{list["name"]}{!editing ? (<>&#x270E;</>) : ""}
+							{list["name"]}{!editing ? (<button>&#x270E;</button>) : ""}
 						</span>
 					)
 				}

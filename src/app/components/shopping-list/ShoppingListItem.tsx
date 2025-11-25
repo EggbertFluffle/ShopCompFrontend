@@ -59,7 +59,7 @@ export default function ReceiptItem({
 						}}>Cancel</button>
 					</div>
 				) : <div onClick={() => {if (!editing) {setEditingName(true); setEditing(true);}}}>
-					{name}{!editing ? (<>&#x270E;</>) : ""}
+					{name}{!editing ? (<button>&#x270E;</button>) : ""}
 					</div>
 			}
 			<div>
@@ -88,7 +88,7 @@ export default function ReceiptItem({
 					}}>Cancel</button>
 				</div>
 				) : <span onClick={() => {setEditingQuantity(true); setEditing(true);}}>
-					Quantity: {item.quantity}{!editing ? (<>&#x270E;</>) : ""}
+					Quantity: {item.quantity}{!editing ? (<button>&#x270E;</button>) : ""}
 				</span>}
 			</div>
 			<button onClick={() => { removeItem(item, shoppingListUUID, shoppingListName) }}>&#x1F5D1;</button>
