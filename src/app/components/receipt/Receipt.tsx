@@ -56,6 +56,17 @@ export default function Receipt() {
 		setItems(items.filter((i) => i.localID !== localID));
 	}
 
+	//for analyze with ai
+	function loadItems(parsed: any) { //"parsed: any" (source: GPT)
+		const loadedItems = parsed.items.map((i) => 
+			new Item(i.name, parseDouble(i.price), parseInt(i.quantity), "")
+		);
+
+		setItems(loadedItems);
+
+		if (parsed.date) setDate(parsed.date);
+	}
+
 	const submitReceipt = () => {
 		if (storeUUID == "choose-store" || storeUUID == "") {
 			setReceiptError(

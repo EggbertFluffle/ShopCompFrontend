@@ -52,8 +52,8 @@ export default function AnalyzeModal() {
 			max_output_tokens: 500,
 		} as any);
 
-		let output = JSON.parse(response.output_text);
-		console.log(output);
+		let receiptOutput = JSON.parse(response.output_text);
+		console.log(receiptOutput);
 	};
 
 	return (
