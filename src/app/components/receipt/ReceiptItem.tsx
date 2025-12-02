@@ -46,6 +46,7 @@ export default function ReceiptItem({ item, removeItem }: { item: Item, removeIt
 
 			<label>Category:</label>
 			<input
+				value={category}
 				onChange={(e) => {
 					setCatergory(e.target.value);
 					item.category = e.target.value;

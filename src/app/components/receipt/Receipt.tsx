@@ -59,10 +59,11 @@ export default function Receipt() {
 	//for analyze with ai
 	function loadReceipt(parsed: any) { //"parsed: any" (source: GPT)
 		const loadedItems = parsed.items.map((i) => 
-			new Item(i.name, parseFloat(i.price), parseInt(i.quantity), i.category ?? "")
+			new Item(i.name, parseFloat(i.price), parseInt(i.quantity), i.category)
 		);
 
 		setItems(loadedItems);
+		console.log(parsed.date);
 		if (parsed.date) setDate(parsed.date);
 
 		setAnalyzingReceipt(false);
@@ -136,7 +137,11 @@ export default function Receipt() {
 	return (
 		<div>
 			{receiptError != "" ? <p>{receiptError}</p> : <></>}
-			<input onChange={(e) => setDate(e.target.value)} type="date" />
+			<input
+				type="date"
+				value={date}
+				onChange={(e) => setDate(e.target.value)}
+			/>
 			<select
 				name="Store"
 				onChange={(e) => {
@@ -190,7 +195,7 @@ export default function Receipt() {
 			>
 				Analyze with AI
 			</button>
-			{analyzingReceipt ? ( <AnalyzeModal onParsed={loadReceipt} /> ) : null}
+			{analyzingReceipt ? <AnalyzeModal onParsed={loadReceipt} /> : null}
 		</div>
 	);
 }
