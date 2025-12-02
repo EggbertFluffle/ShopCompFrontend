@@ -59,14 +59,13 @@ export default function Receipt() {
 	//for analyze with ai
 	function loadReceipt(parsed: any) { //"parsed: any" (source: GPT)
 		const loadedItems = parsed.items.map((i) => 
-			new Item(i.name, parseFloat(i.price), parseInt(i.quantity), "")
+			new Item(i.name, parseFloat(i.price), parseInt(i.quantity), i.category ?? "")
 		);
 
 		setItems(loadedItems);
-
 		if (parsed.date) setDate(parsed.date);
 
-		// setAnalyzingReceipt(false);
+		setAnalyzingReceipt(false);
 	}
 
 	const submitReceipt = () => {

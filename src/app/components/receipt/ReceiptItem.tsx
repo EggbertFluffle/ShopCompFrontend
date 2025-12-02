@@ -2,10 +2,10 @@ import { useState } from "react";
 import Item from "../lib/Item";
 
 export default function ReceiptItem({ item, removeItem }: { item: Item, removeItem: (uuid: string) => void }) {
-	const [name, setName] = useState("");
-	const [price, setPrice] = useState("");
-	const [quantity, setQuantity] = useState("1");
-	const [category, setCatergory] = useState("");
+	const [name, setName] = useState(item.name ?? "");
+	const [price, setPrice] = useState(item.price ?? "");
+	const [quantity, setQuantity] = useState(item.quantity ?? "1");
+	const [category, setCatergory] = useState(item.category ?? "");
 
 	return (
 		<div>

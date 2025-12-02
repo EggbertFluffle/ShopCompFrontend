@@ -43,7 +43,7 @@ export default function AnalyzeModal({onParsed}) {
 					content: [
 						{
 							type: "input_text",
-							text: 'Summarize the content of this receipt image. In a JSON format, without markdown code blocks, store name, receipt date yyyy-mm-dd, then Items with their prices.  Exmaple: { "store-name: : "Chicken Bap", "date" : "2025-11-14", "items" : [ { "name" : "Chicken Tenders", "price" : "12.99", "quantity" : "2" }, { "name" : "Fries", "price" : "6.49", "quantity" : "1" } ] }',
+							text: 'Summarize the content of this receipt image. In a JSON format, without markdown code blocks, store name, receipt date yyyy-mm-dd, then Items with their info. Make up item category if not provided. Quantity defaults to 1 if not provided.  Exmaple: { "store-name: : "Chicken Bap", "date" : "2025-11-14", "items" : [ { "name" : "Chicken Tenders", "price" : "12.99", "category" : "made up category-example: Meat", "quantity" : "2" }, { "name" : "Fries", "price" : "6.49", "category" : "made up category-example: Side", "quantity" : "4" } ] }',
 						},
 						{ type: "input_image", image_url: dataUrl },
 					],
