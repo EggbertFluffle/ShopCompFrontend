@@ -2,7 +2,7 @@
 import OpenAI from "openai";
 import { useRef, useState, useEffect } from "react";
 
-export default function AnalyzeModal() {
+export default function AnalyzeModal({onParsed}) {
 	const [apiKey, setApiKey] = useState("");
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const [summary, setSummary] = useState("");
@@ -53,7 +53,9 @@ export default function AnalyzeModal() {
 		} as any);
 
 		let receiptOutput = JSON.parse(response.output_text);
-		console.log(receiptOutput);
+		console.log(receiptOutput); //debugging
+
+		onParsed(receiptOutput);
 	};
 
 	return (

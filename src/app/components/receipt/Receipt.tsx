@@ -57,14 +57,16 @@ export default function Receipt() {
 	}
 
 	//for analyze with ai
-	function loadItems(parsed: any) { //"parsed: any" (source: GPT)
+	function loadReceipt(parsed: any) { //"parsed: any" (source: GPT)
 		const loadedItems = parsed.items.map((i) => 
-			new Item(i.name, parseDouble(i.price), parseInt(i.quantity), "")
+			new Item(i.name, parseFloat(i.price), parseInt(i.quantity), "")
 		);
 
 		setItems(loadedItems);
 
 		if (parsed.date) setDate(parsed.date);
+
+		// setAnalyzingReceipt(false);
 	}
 
 	const submitReceipt = () => {
@@ -189,7 +191,7 @@ export default function Receipt() {
 			>
 				Analyze with AI
 			</button>
-			{analyzingReceipt ? <AnalyzeModal /> : <></>}
+			{analyzingReceipt ? ( <AnalyzeModal onParsed={loadReceipt} /> ) : null}
 		</div>
 	);
 }
