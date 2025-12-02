@@ -12,7 +12,7 @@ type Item = {
 export default function ShoppingLists() {
 	const [lists, setLists] = useState<any[]>([]);
 	const [isEditing, setIsEditing] = useState<boolean>(false);
-	const [options, setOptions] = useState<any[]>(null);
+	const [options, setOptions] = useState<any[]>([]);
 	useEffect(() => {
 		instance.post("list-shopping-lists", {
 			"shopper-uuid": shopper.uuid
