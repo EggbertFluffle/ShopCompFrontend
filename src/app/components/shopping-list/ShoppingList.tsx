@@ -91,6 +91,10 @@ export default function ShoppingList({
 					}}>
 						Delete List
 				</button>
+				<button onClick={
+					() => reportOptions(list["shopping-list-uuid"], list["name"], list.items)}>
+						Report Options
+				</button>
 			</div>
 		</div>
 	);

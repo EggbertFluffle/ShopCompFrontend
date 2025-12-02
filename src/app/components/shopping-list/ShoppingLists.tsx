@@ -131,7 +131,7 @@ export default function ShoppingLists() {
 		});
 	};
 	const reportOptions = (shoppingListUUID: string, shoppingListName: string, items: any[]) => {
-		instance.post("get-shopping-list-report-options", {
+		instance.post("report-options-for-shopping-list", {
 			"shopper-uuid": shopper.uuid,
 			"shopper-username": shopper.username,
 			"shopping-list-uuid": shoppingListUUID,
