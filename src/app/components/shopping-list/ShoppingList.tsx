@@ -19,7 +19,8 @@ export default function ShoppingList({
 	deleteList,
 	modifyListName,
 	editing,
-	setEditing
+	setEditing,
+	reportOptions
 }: {
 	list: ShoppingList,
 	modifyItem: (item: Item, shoppingListUUID: string, shoppingListName: string) => void,
@@ -29,6 +30,7 @@ export default function ShoppingList({
 	modifyListName: (shoppingListUUID: string, newName: string) => void,
 	editing: boolean,
 	setEditing: (editing: boolean) => void
+	reportOptions: (shoppingListUUID: string, shoppingListName: string, items: any[]) => void
 }) {
 	const [editingName, setEditingName] = useState(false);
 	const [newName, setNewName] = useState(list["name"]);

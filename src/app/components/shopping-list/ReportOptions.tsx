@@ -1,8 +1,11 @@
-export default function ReportOptions() {
+export default function ReportOptions({
+	items
+}:{
+	items: any[]
+}) {
   return (
-	<div>
-	  <h2>Report Options</h2>
-	  {/* Report options content goes here */}
-	</div>
+	  <>
+
+	  </>
   );
 }
