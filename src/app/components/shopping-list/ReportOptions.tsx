@@ -1,26 +1,26 @@
 import ReportOptionItem from "./ReportOptionItem";
 type Store = {
   "store-uuid": string;
-  address?: string;
+  address: string;
 };
 type Receipt = {
-  date?: string;
-  "store-chain-name"?: string;
-  "store-chain-url"?: string;
-  store?: Store;
+  date: string;
+  "store-chain-name": string;
+  "store-chain-url": string;
+  store: Store;
 };
 type Option = {
   "item-uuid": string;
   name: string;
-  price?: number;
-  quantity?: number;
-  "receipt-uuid"?: string;
-  receipt?: Receipt;
+  price: number;
+  quantity: number;
+  "receipt-uuid": string;
+  receipt: Receipt;
 };
 type ReportItem = {
   "item-uuid": string;
   name: string;
-  options?: Option[];
+  options: Option[];
 };
 export default function ReportOptions({
   items,
