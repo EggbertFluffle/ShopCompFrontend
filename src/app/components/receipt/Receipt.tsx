@@ -59,7 +59,7 @@ export default function Receipt() {
 	//for analyze with ai
 	function loadReceipt(parsed: any) { //"parsed: any" (source: GPT)
 		const loadedItems = parsed.items.map((i) => 
-			new Item(i.name, parseFloat(i.price), parseInt(i.quantity), i.category)
+			new Item(i.name ?? "UNNAMMED", parseFloat(i.price ?? 1.00), parseInt(i.quantity ?? 1), i.category ?? "UNCATEGORIZED")
 		);
 
 		setItems(loadedItems);
