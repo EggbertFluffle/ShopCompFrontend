@@ -59,7 +59,9 @@ export default function Dashboard(){
 				{receipts.map((r) => (
 					<div key={r["receipt-uuid"]}>
 						<p>Date: {formatDate(r.date)}</p>
-						<p>Store: {r.store.address}</p>
+						<p>
+							Store: ({r.chainName}) {r.store.address}
+						</p>
 						<p>Items:</p>
 						<ul>
 							{r.items.map((item) => (
