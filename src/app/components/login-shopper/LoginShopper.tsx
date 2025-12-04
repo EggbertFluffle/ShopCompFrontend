@@ -3,9 +3,20 @@ import { ViewState } from "../lib/types";
 import { instance } from "../lib/Endpoint";
 import { shopper } from "../lib/Shopper";
 
+import { useAuth } from "react-oidc-context";
+
 export default function LoginShopper({ setState }: { setState: (state: ViewState) => void }) {
 	const formRef = useRef<HTMLFormElement>(null);
 	let [ loginError, setLoginError ] = useState("");
+
+	const auth = useAuth();
+
+	const signOutRedirect = () => {
+		const clientId = "5m9to35nji6n1ibma2j96904r9";
+		const logoutUri = "https://eggbert.xyz";
+		const cognitoDomain = "https://us-east-1n6lnwf6ym.auth.us-east-1.amazoncognito.com";
+		window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -54,6 +65,14 @@ export default function LoginShopper({ setState }: { setState: (state: ViewState
 					Don't have an account? Register
 				</button>
 			</div>
+			<button onClick={() => {
+				console.log("clicked!");
+				console.log(auth);
+				auth.signinRedirect();
+			}}>
+				Sign In Redirect
+			</button>
+			{ auth.error ? <p>{auth.error.message}</p> : <p>Ready</p> }
 		</div>
 	);
 }

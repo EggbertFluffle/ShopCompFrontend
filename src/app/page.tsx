@@ -2,6 +2,16 @@
 import { useState } from 'react';
 import { ViewState } from './components/lib/types';
 
+import { AuthProvider } from 'react-oidc-context';
+
+const cognitoAuthConfig = {
+  authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_N6LnWf6ym",
+  client_id: "5m9to35nji6n1ibma2j96904r9",
+  redirect_uri: "https://d84l1y8p4kdic.cloudfront.net",
+  response_type: "code",
+  scope: "phone openid email",
+};
+
 import LoginShopper from './components/login-shopper/LoginShopper';
 import ShoppingLists from './components/shopping-list/ShoppingLists';
 import Receipt from './components/receipt/Receipt';
@@ -26,7 +36,7 @@ export default function Home() {
 	};
 
 	return (
-		<>
+		<AuthProvider {...cognitoAuthConfig}>
 			<select onChange={(e) => setState(e.target.value as ViewState)} value={state}>
 				<option value="register-shopper">Register Shopper</option>
 				<option value="login-shopper">Login Shopper</option>
@@ -34,6 +44,6 @@ export default function Home() {
 				<option value="receipt">Receipt</option>
 			</select>
 			{displayComponent(state)}
-		</>
+		</AuthProvider>
 	);
 }
