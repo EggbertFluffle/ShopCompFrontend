@@ -19,10 +19,6 @@ export default function Dashboard() {
 			.then((response) => {
 				const data = JSON.parse(response.data.body);
 				const receipts = data.receipts;
-
-				//for debugging NO NOT DELETE
-				//console.log("Receipts:", receipts);
-
 				return receipts;
 			})
 			.catch((err) => {
@@ -35,9 +31,7 @@ export default function Dashboard() {
 		return reviewHistory(shopperUUID).then((receipts) => {
 			const now = new Date();
 
-			// helper to check if receipt matches a time window
 			function inRange(dateString: string) {
-				//GPT
 				const d = new Date(dateString);
 
 				if (timePeriod === "last-day") {
@@ -60,13 +54,11 @@ export default function Dashboard() {
 					return d >= oneMonthAgo;
 				}
 
-				// all-time
 				return true;
 			}
 
-			const filtered = receipts.filter((r) => inRange(r.date)); //GPT
+			const filtered = receipts.filter((r) => inRange(r.date));
 
-			// total spending = sum of all (price × quantity)
 			const total = filtered.reduce((sum, r) => {
 				return (
 					sum +
@@ -81,14 +73,12 @@ export default function Dashboard() {
 	}
 
 	function formatDate(isoDate: string) {
-		//GPT
 		const clean = isoDate.split("T")[0];
 		const [year, month, day] = clean.split("-");
 		return `${month}/${day}/${year}`;
 	}
 
 	useEffect(() => {
-		//shows total spending by default (option is all-time)
 		reviewActivity(shopper.uuid, "all-time").then((total) => {
 			setActivityTotal(total);
 		});
@@ -96,39 +86,11 @@ export default function Dashboard() {
 
 	return (
 		<div>
-			<label>Shopper Username: {shopper.username}</label>
+			<label className="username">Shopper: {shopper.username}</label>
 
-			<button
-				onClick={() => {
-					reviewHistory(shopper.uuid).then((list) => {
-						setReceipts(list);
-					});
-				}}
-			>
-				Review History
-			</button>
-			<div>
-				{receipts.map((r) => (
-					<div key={r["receipt-uuid"]}>
-						<p>Date: {formatDate(r.date)}</p>
-						<p>
-							Store: ({r.chainName}) {r.store.address}
-						</p>
-						<p>Items:</p>
-						<ul>
-							{r.items.map((item) => (
-								<li key={item["item-uuid"]}>
-									{item.name} — ${item.price} ×{" "}
-									{item.quantity}
-								</li>
-							))}
-						</ul>
-					</div>
-				))}
-			</div>
-
-			<label>Review Activity</label>
+			<label className="review-activity">Review Activity:</label>
 			<select
+				className="review-period-select"
 				value={period}
 				onChange={(e) => {
 					const p = e.target.value;
@@ -145,7 +107,50 @@ export default function Dashboard() {
 				<option value="last-month">Last Month</option>
 			</select>
 
-			<p>Total Spending: ${activityTotal.toFixed(2)}</p>
+			<p className="total-spending">Total Spending: ${activityTotal.toFixed(2)}</p>
+
+			<button
+				className="review-history-button"
+				onClick={() => {
+					reviewHistory(shopper.uuid).then((list) => {
+						setReceipts(list);
+					});
+				}}
+			>
+				Review History
+			</button>
+
+			<div>
+				{receipts.map((r) => {
+					const receiptTotal = r.items.reduce(
+						(sum, item) => sum + item.price * item.quantity,
+						0
+					);
+
+					return (
+						<div className="receipt-card" key={r["receipt-uuid"]}>
+							<p>Date: {formatDate(r.date)}</p>
+							<p>
+								Store: ({r.chainName}) {r.store.address}
+							</p>
+
+							<p>Items:</p>
+							<ul>
+								{r.items.map((item) => (
+									<li key={item["item-uuid"]}>
+										{item.name} — ${item.price} ×{" "}
+										{item.quantity}
+									</li>
+								))}
+							</ul>
+
+							<p className="receipt-total">
+								Total: ${receiptTotal.toFixed(2)}
+							</p>
+						</div>
+					);
+				})}
+			</div>
 		</div>
 	);
 }
