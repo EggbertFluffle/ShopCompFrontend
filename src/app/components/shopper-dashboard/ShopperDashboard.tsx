@@ -1,15 +1,17 @@
 "use client";
+import "./page.css";
+
 import { useState, useEffect } from "react";
 import { ViewState } from "./components/lib/types";
 import { instance } from "../lib/Endpoint";
 import { shopper } from "../lib/Shopper";
 
-export default function Dashboard(){
-    const [receipts, setReceipts] = useState([]);
+export default function Dashboard() {
+	const [receipts, setReceipts] = useState([]);
 	const [activityTotal, setActivityTotal] = useState(0);
 	const [period, setPeriod] = useState("all-time");
 
-    function reviewHistory(shopperUUID: string) {
+	function reviewHistory(shopperUUID: string) {
 		return instance
 			.post("review-history", {
 				"shopper-uuid": shopperUUID,
@@ -29,13 +31,13 @@ export default function Dashboard(){
 			});
 	}
 
-
-    function reviewActivity(shopperUUID: string, timePeriod: string) {
+	function reviewActivity(shopperUUID: string, timePeriod: string) {
 		return reviewHistory(shopperUUID).then((receipts) => {
 			const now = new Date();
 
 			// helper to check if receipt matches a time window
-			function inRange(dateString: string) { //GPT
+			function inRange(dateString: string) {
+				//GPT
 				const d = new Date(dateString);
 
 				if (timePeriod === "last-day") {
@@ -78,22 +80,21 @@ export default function Dashboard(){
 		});
 	}
 
-
-    function formatDate(isoDate: string) { //GPT
+	function formatDate(isoDate: string) {
+		//GPT
 		const clean = isoDate.split("T")[0];
 		const [year, month, day] = clean.split("-");
 		return `${month}/${day}/${year}`;
 	}
 
-	useEffect(() => { //shows total spending by default (option is all-time)
+	useEffect(() => {
+		//shows total spending by default (option is all-time)
 		reviewActivity(shopper.uuid, "all-time").then((total) => {
 			setActivityTotal(total);
 		});
 	}, []);
 
-
-
-    return (
+	return (
 		<div>
 			<label>Shopper Username: {shopper.username}</label>
 
