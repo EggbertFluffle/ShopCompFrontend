@@ -9,10 +9,6 @@ export default function Dashboard(){
 	const [activityTotal, setActivityTotal] = useState(0);
 	const [period, setPeriod] = useState("all-time");
 
-    function returnUsername(shopperUUID: srting){
-        //return shopper's username in shopper dashboard
-    }
-
     function reviewHistory(shopperUUID: string) {
 		return instance
 			.post("review-history", {
@@ -99,7 +95,7 @@ export default function Dashboard(){
 
     return (
 		<div>
-			<label>{}</label>
+			<label>Shopper Username: {shopper.username}</label>
 
 			<button
 				onClick={() => {
