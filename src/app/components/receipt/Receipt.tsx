@@ -1,3 +1,5 @@
+import "./page.css";
+
 import { useRef, useState, useEffect } from "react";
 //mport OpenAi from 'openai';
 import Item from "../lib/Item";
@@ -57,9 +59,16 @@ export default function Receipt() {
 	}
 
 	//for analyze with ai
-	function loadReceipt(parsed: any) { //"parsed: any" (source: GPT)
-		const loadedItems = parsed.items.map((i) => 
-			new Item(i.name ?? "UNNAMMED", parseFloat(i.price ?? 1.00), parseInt(i.quantity ?? 1), i.category ?? "UNCATEGORIZED")
+	function loadReceipt(parsed: any) {
+		//"parsed: any" (source: GPT)
+		const loadedItems = parsed.items.map(
+			(i) =>
+				new Item(
+					i.name ?? "UNNAMMED",
+					parseFloat(i.price ?? 1.0),
+					parseInt(i.quantity ?? 1),
+					i.category ?? "UNCATEGORIZED"
+				)
 		);
 
 		setItems(loadedItems);
