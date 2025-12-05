@@ -1,8 +1,10 @@
 "use client";
+import "./page.css";
+
 import OpenAI from "openai";
 import { useRef, useState, useEffect } from "react";
 
-export default function AnalyzeModal({onParsed}) {
+export default function AnalyzeModal({ onParsed }) {
 	const [apiKey, setApiKey] = useState("");
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const [summary, setSummary] = useState("");

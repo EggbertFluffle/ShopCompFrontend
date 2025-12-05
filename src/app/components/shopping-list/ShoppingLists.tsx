@@ -1,12 +1,14 @@
+import "./page.css";
+
 import { useEffect, useRef, useState } from "react";
 import ShoppingList from "./ShoppingList";
 import ReportOptions from "./ReportOptions";
 import { instance } from "../lib/Endpoint";
 import { shopper } from "../lib/Shopper";
 type Item = {
-	"item-uuid": string,
-	"name": string,
-	"quantity": number
+	"item-uuid": string;
+	name: string;
+	quantity: number;
 };
 
 export default function ShoppingLists() {
@@ -14,16 +16,23 @@ export default function ShoppingLists() {
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const [options, setOptions] = useState<any[]>([]);
 	useEffect(() => {
-		instance.post("list-shopping-lists", {
-			"shopper-uuid": shopper.uuid
-		}).then((response) => {
-			console.log(response);
-			setLists(response["data"]["shopping-list"]);
-		}).catch((err) => {
-			console.error(err);
-		});
+		instance
+			.post("list-shopping-lists", {
+				"shopper-uuid": shopper.uuid,
+			})
+			.then((response) => {
+				console.log(response);
+				setLists(response["data"]["shopping-list"]);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 	}, []);
-	const modifyItem = async (item: Item, shoppingListUUID: string, shoppingListName: string) => {
+	const modifyItem = async (
+		item: Item,
+		shoppingListUUID: string,
+		shoppingListName: string
+	) => {
 		setLists((prevLists) => {
 			// optimistic update
 			return prevLists.map((list) => {
@@ -35,76 +44,95 @@ export default function ShoppingLists() {
 								return item;
 							}
 							return it;
-						})
+						}),
 					};
 				}
 				return list;
 			});
 		});
-		instance.post("modify-on-shopping-list", {
-			"shopper-uuid": shopper.uuid,
-			"shopper-username": shopper.username,
-			"item-uuid": item["item-uuid"],
-			"item-name": item.name,
-			"item-quantity": item.quantity,
-			"shopping-list-uuid": shoppingListUUID,
-			"shopping-list-name": shoppingListName
-		}).then((response) => {
-			setLists(response["data"]["shopping-list"]);
-		}).catch((err) => {
-			console.error(err);
-		});
+		instance
+			.post("modify-on-shopping-list", {
+				"shopper-uuid": shopper.uuid,
+				"shopper-username": shopper.username,
+				"item-uuid": item["item-uuid"],
+				"item-name": item.name,
+				"item-quantity": item.quantity,
+				"shopping-list-uuid": shoppingListUUID,
+				"shopping-list-name": shoppingListName,
+			})
+			.then((response) => {
+				setLists(response["data"]["shopping-list"]);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 	};
-	const removeItem = async (item: Item, shoppingListUUID: string, shoppingListName: string) => {
-		instance.post("remove-from-shopping-list", {
-			"shopper-uuid": shopper.uuid,
-			"shopper-username": shopper.username,
-			"item-name": item.name,
-			"item-uuid": item["item-uuid"],
-			"shopping-list-uuid": shoppingListUUID,
-			"shopping-list-name": shoppingListName
-		}).then((response) => {
-			setLists(response["data"]["shopping-list"]);
-		}).catch((err) => {
-			console.error(err);
-		});
-	}
+	const removeItem = async (
+		item: Item,
+		shoppingListUUID: string,
+		shoppingListName: string
+	) => {
+		instance
+			.post("remove-from-shopping-list", {
+				"shopper-uuid": shopper.uuid,
+				"shopper-username": shopper.username,
+				"item-name": item.name,
+				"item-uuid": item["item-uuid"],
+				"shopping-list-uuid": shoppingListUUID,
+				"shopping-list-name": shoppingListName,
+			})
+			.then((response) => {
+				setLists(response["data"]["shopping-list"]);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	};
 	const addItem = (shoppingListUUID: string, shoppingListName: string) => {
-		instance.post("add-to-shopping-list", {
-			"shopper-uuid": shopper.uuid,
-			"shopper-username": shopper.username,
-			"item-name": "New Item",
-			"item-quantity": 0,
-			"shopping-list-uuid": shoppingListUUID,
-			"shopping-list-name": shoppingListName
-		}).then((response) => {
-			setLists(response["data"]["shopping-list"]);
-		}).catch((err) => {
-			console.error(err);
-		});
+		instance
+			.post("add-to-shopping-list", {
+				"shopper-uuid": shopper.uuid,
+				"shopper-username": shopper.username,
+				"item-name": "New Item",
+				"item-quantity": 0,
+				"shopping-list-uuid": shoppingListUUID,
+				"shopping-list-name": shoppingListName,
+			})
+			.then((response) => {
+				setLists(response["data"]["shopping-list"]);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 	};
 	const createNewList = () => {
-		instance.post("create-shopping-list", {
-			"shopper-uuid": shopper.uuid,
-			"shopper-username": shopper.username,
-			"shopping-list-name": "New List"
-		}).then((response) => {
-			setLists(response["data"]["shopping-list"]);
-		}).catch((err) => {
-			console.error(err);
-		});
+		instance
+			.post("create-shopping-list", {
+				"shopper-uuid": shopper.uuid,
+				"shopper-username": shopper.username,
+				"shopping-list-name": "New List",
+			})
+			.then((response) => {
+				setLists(response["data"]["shopping-list"]);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 	};
 	const deleteList = (shoppingListUUID: string, shoppingListName: string) => {
-		instance.post("remove-shopping-list", {
-			"shopper-uuid": shopper.uuid,
-			"shopper-username": shopper.username,
-			"shopping-list-uuid": shoppingListUUID,
-			"shopping-list-name": shoppingListName
-		}).then((response) => {
-			setLists(response["data"]["shopping-list"]);
-		}).catch((err) => {
-			console.error(err);
-		});
+		instance
+			.post("remove-shopping-list", {
+				"shopper-uuid": shopper.uuid,
+				"shopper-username": shopper.username,
+				"shopping-list-uuid": shoppingListUUID,
+				"shopping-list-name": shoppingListName,
+			})
+			.then((response) => {
+				setLists(response["data"]["shopping-list"]);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 	};
 	const modifyListName = (shoppingListUUID: string, newName: string) => {
 		setLists((prevLists) => {
@@ -113,22 +141,25 @@ export default function ShoppingLists() {
 				if (list["shopping-list-uuid"] === shoppingListUUID) {
 					return {
 						...list,
-						"name": newName
+						name: newName,
 					};
 				}
 				return list;
 			});
 		});
-		instance.post("modify-shopping-list", {
-			"shopper-uuid": shopper.uuid,
-			"shopper-username": shopper.username,
-			"shopping-list-uuid": shoppingListUUID,
-			"shopping-list-name": newName
-		}).then((response) => {
-			setLists(response["data"]["shopping-list"]);
-		}).catch((err) => {
-			console.error(err);
-		});
+		instance
+			.post("modify-shopping-list", {
+				"shopper-uuid": shopper.uuid,
+				"shopper-username": shopper.username,
+				"shopping-list-uuid": shoppingListUUID,
+				"shopping-list-name": newName,
+			})
+			.then((response) => {
+				setLists(response["data"]["shopping-list"]);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 	};
 	const reportOptions = (shoppingListUUID: string, shoppingListName: string, items: any[]) => {
 		instance.post("report-options-for-shopping-list", {

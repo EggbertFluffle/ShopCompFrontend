@@ -1,7 +1,15 @@
+import "./page.css";
+
 import { useState } from "react";
 import Item from "../lib/Item";
 
-export default function ReceiptItem({ item, removeItem }: { item: Item, removeItem: (uuid: string) => void }) {
+export default function ReceiptItem({
+	item,
+	removeItem,
+}: {
+	item: Item;
+	removeItem: (uuid: string) => void;
+}) {
 	const [name, setName] = useState(item.name ?? "");
 	const [price, setPrice] = useState(item.price ?? "");
 	const [quantity, setQuantity] = useState(item.quantity ?? "1");
