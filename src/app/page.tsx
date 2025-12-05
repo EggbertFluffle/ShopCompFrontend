@@ -6,6 +6,7 @@ import LoginShopper from './components/login-shopper/LoginShopper';
 import ShoppingLists from './components/shopping-list/ShoppingLists';
 import Receipt from './components/receipt/Receipt';
 import RegisterShopper from './components/register-shopper/RegisterShopper';
+import ShopperDashboard from './components/shopper-dashboard/ShopperDashboard';
 
 export default function Home() {
 	const [state, setState] = useState<ViewState>("register-shopper");
@@ -20,6 +21,8 @@ export default function Home() {
 				return <LoginShopper setState={setState} />;
 			case "shopping-list":
 				return <ShoppingLists />;
+			case "shopper-dashboard":
+				return <ShopperDashboard />;
 			default:
 				return <div>Invalid State</div>;
 		}
@@ -32,6 +35,7 @@ export default function Home() {
 				<option value="login-shopper">Login Shopper</option>
 				<option value="shopping-list">Shopping List</option>
 				<option value="receipt">Receipt</option>
+				<option value="shopper-dashboard">Shopper Dashboard</option>
 			</select>
 			{displayComponent(state)}
 		</>
