@@ -2,6 +2,7 @@ import "./page.css";
 
 import { useEffect, useRef, useState } from "react";
 import ShoppingList from "./ShoppingList";
+import ReportOptions from "./ReportOptions";
 import { instance } from "../lib/Endpoint";
 import { shopper } from "../lib/Shopper";
 type Item = {
@@ -13,6 +14,7 @@ type Item = {
 export default function ShoppingLists() {
 	const [lists, setLists] = useState<any[]>([]);
 	const [isEditing, setIsEditing] = useState<boolean>(false);
+	const [options, setOptions] = useState<any[]>([]);
 	useEffect(() => {
 		instance
 			.post("list-shopping-lists", {
@@ -159,36 +161,48 @@ export default function ShoppingLists() {
 				console.error(err);
 			});
 	};
+	const reportOptions = (shoppingListUUID: string, shoppingListName: string, items: any[]) => {
+		instance.post("report-options-for-shopping-list", {
+			"shopper-uuid": shopper.uuid,
+			"shopper-username": shopper.username,
+			"shopping-list-uuid": shoppingListUUID,
+			"shopping-list-name": shoppingListName,
+			"items": items
+		}).then((response) => {
+			setOptions(response["data"]["items"]);
+		}).catch((err) => {
+			console.error(err);
+		});
+	};
 	return (
 		<div>
-			{shopper.uuid ? (
-				lists && (
-					<>
-						{lists.map((list) => (
-							<ShoppingList
-								key={list["shopping-list-uuid"]}
-								list={list}
-								modifyItem={modifyItem}
-								removeItem={removeItem}
-								addItem={addItem}
-								deleteList={deleteList}
-								modifyListName={modifyListName}
-								editing={isEditing}
-								setEditing={setIsEditing}
-							/>
-						))}
-						<button
-							onClick={() => {
-								createNewList();
-							}}
-						>
-							Create New Shopping List
-						</button>
-					</>
-				)
-			) : (
-				<p>Please log in to view your shopping lists.</p>
-			)}
+			{ shopper.uuid ? lists &&
+			<>
+				<div>
+					{lists.map((list) => (
+						<ShoppingList
+							key={list["shopping-list-uuid"]}
+							list={list}
+							modifyItem={modifyItem}
+							removeItem={removeItem}
+							addItem={addItem}
+							deleteList={deleteList}
+							modifyListName={modifyListName}
+							editing={isEditing}
+							setEditing={setIsEditing}
+							reportOptions={reportOptions}
+						/>
+					))}
+					<button onClick={() => {
+						createNewList();
+					}}>Create New Shopping List</button>
+				</div>
+				<div>
+					<ReportOptions items={options}/>
+				</div>
+			</>
+			: <p>Please log in to view your shopping lists.</p>
+			}
 		</div>
 	);
 }
