@@ -38,32 +38,36 @@ export default function RegisterShopper({
 
 	return (
 		<div>
-			<div>
+			<div className="register-section">
 				<h1>Register Shopper</h1>
 
 				{registerError != "" ? <p>{registerError}</p> : <></>}
 
 				<form ref={formRef} onSubmit={handleSubmit}>
-					<label>
+					<label className="credentials-input">
 						Username:
 						<input type="text" name="username" />
 					</label>
 					<br />
 
-					<label>
+					<label className="credentials-input">
 						Password:
 						<input type="password" name="password" />
 					</label>
 					<br />
 
-					<button type="submit">Register</button>
+					<button className="register-button" type="submit">
+						Register
+					</button>
 				</form>
-			</div>
-
-			<div>
-				<button onClick={() => setState("login-shopper")}>
-					Already have an account? Login
-				</button>
+				<div>
+					<button
+						className="switch-link"
+						onClick={() => setState("login-shopper")}
+					>
+						Already have an account? Login
+					</button>
+				</div>
 			</div>
 		</div>
 	);

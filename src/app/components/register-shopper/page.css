@@ -1,0 +1,65 @@
+.register-section {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    min-height: 85vh;
+    /*keep 85*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.credentials-input {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.credentials-input input {
+    margin-bottom: 1rem;
+    margin-left: 0.4rem;
+    padding: 0.2rem;
+    background-color: rgb(70, 70, 70);
+    border-radius: 6px;
+    border-style: solid;
+    border-color: white;
+    border-width: 2px;
+    color: white;
+    padding-left: 6px;
+    font-size: 1rem;
+}
+
+.register-button {
+    margin-top: 2rem;
+    background-color: #1f1f1f;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: white;
+    border-width: 2px;
+    color: white;
+    padding: 0.3rem 1.4rem 0.3rem 1.4rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.register-button:hover {
+    background-color: #393939;
+    transform: translateY(-2px);
+}
+
+.switch-link {
+    margin-top: 0.6rem;
+    background: none;
+    background-color: transparent;
+    background-color: none;
+    border-style: none;
+    color: rgb(132, 132, 132);
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.switch-link:hover {
+    transform: translateY(-2px);
+    color: rgb(234, 234, 234);
+}
