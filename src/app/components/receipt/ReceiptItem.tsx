@@ -17,7 +17,7 @@ export default function ReceiptItem({
 
 	return (
 		<div>
-			<div>
+			<div className="item-field">
 				<label>Item name:</label>
 				<input
 					value={name}
@@ -28,7 +28,7 @@ export default function ReceiptItem({
 				/>
 			</div>
 
-			<div>
+			<div className="item-field">
 				<label>Price:</label>
 				<input
 					value={price}
@@ -39,27 +39,27 @@ export default function ReceiptItem({
 				/>
 			</div>
 
-			<div>
+			<div className="item-field">
 				<label>Quantity:</label>
-				<div>
-					<input
-						value={quantity}
-						onChange={(e) => {
-							setQuantity(e.target.value);
-							item.quantity = parseInt(e.target.value);
-						}}
-					/>
-				</div>
+				<input
+					value={quantity}
+					onChange={(e) => {
+						setQuantity(e.target.value);
+						item.quantity = parseInt(e.target.value);
+					}}
+				/>
 			</div>
 
-			<label>Category:</label>
-			<input
-				value={category}
-				onChange={(e) => {
-					setCatergory(e.target.value);
-					item.category = e.target.value;
-				}}
-			/>
+			<div className="item-field">
+				<label>Category:</label>
+				<input
+					value={category}
+					onChange={(e) => {
+						setCatergory(e.target.value);
+						item.category = e.target.value;
+					}}
+				/>
+			</div>
 			<button
 				onClick={() => {
 					removeItem(item.localID);

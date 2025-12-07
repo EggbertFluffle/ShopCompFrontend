@@ -144,14 +144,16 @@ export default function Receipt() {
 	};
 
 	return (
-		<div>
+		<div className="receipt-main">
 			{receiptError != "" ? <p>{receiptError}</p> : <></>}
 			<input
+				className="date-picker"
 				type="date"
 				value={date}
 				onChange={(e) => setDate(e.target.value)}
 			/>
 			<select
+				className="store-picker"
 				name="Store"
 				onChange={(e) => {
 					setStoreUUID(e.target.value);
@@ -183,6 +185,7 @@ export default function Receipt() {
 				})}
 			</div>
 			<button
+				className="add-item-button"
 				onClick={() => {
 					setItems([...items, new Item("", 0, 1, "")]);
 				}}
@@ -190,6 +193,7 @@ export default function Receipt() {
 				Add Item
 			</button>
 			<button
+				className="add-item-button" /*im using the same css*/
 				onClick={() => {
 					submitReceipt();
 				}}
@@ -198,6 +202,7 @@ export default function Receipt() {
 			</button>
 
 			<button
+				className="ai-button"
 				onClick={() => {
 					setAnalyzingReceipt(true);
 				}}
