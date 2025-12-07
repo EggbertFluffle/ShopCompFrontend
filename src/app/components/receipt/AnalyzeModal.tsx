@@ -4,7 +4,7 @@ import "./page.css";
 import OpenAI from "openai";
 import { useRef, useState, useEffect } from "react";
 
-export default function AnalyzeModal({ onParsed }) {
+export default function AnalyzeModal({ onParsed, onClose }) {
 	const [apiKey, setApiKey] = useState("");
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const [summary, setSummary] = useState("");
@@ -61,21 +61,36 @@ export default function AnalyzeModal({ onParsed }) {
 	};
 
 	return (
-		<div>
-			<label>OpenAI API Key:</label>
-			<input
-				type="text"
-				placeholder="OpenAI API Key"
-				onChange={(e) => {
-					setApiKey(e.target.value);
-				}}
-			/>
-			<input
-				type="file"
-				accept="image/*, .pdf"
-				onChange={handleFileChange}
-			/>
-			<button onClick={handleReceiptAnalysis}>Analyze Receipt</button>
+		<div className="modal-overlay">
+			<div className="ai-receipt-section modal-box">
+				<label>OpenAI API Key:</label>
+				<input
+					className="api-field"
+					type="text"
+					placeholder="OpenAI API Key"
+					onChange={(e) => {
+						setApiKey(e.target.value);
+					}}
+				/>
+				<input
+					className="upload-section"
+					type="file"
+					accept="image/*, .pdf"
+					onChange={handleFileChange}
+				/>
+				
+				<div>
+					<button className="cancel-button" onClick={onClose}>
+						Cancel
+					</button>
+					<button
+						className="analyze-button"
+						onClick={handleReceiptAnalysis}
+					>
+						Analyze Receipt
+					</button>
+				</div>
+			</div>
 		</div>
 	);
 }

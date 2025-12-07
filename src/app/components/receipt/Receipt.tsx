@@ -209,7 +209,14 @@ export default function Receipt() {
 			>
 				Analyze with AI
 			</button>
-			{analyzingReceipt ? <AnalyzeModal onParsed={loadReceipt} /> : null}
+			{
+				analyzingReceipt ? (
+					<AnalyzeModal
+						onParsed={loadReceipt}
+						onClose={() => setAnalyzingReceipt(false)}
+					/>
+				) : null
+			}
 		</div>
 	);
 }

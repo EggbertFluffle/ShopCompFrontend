@@ -65,6 +65,7 @@ export default function ReceiptItem({
 				/>
 			</div>
 			<button
+				className="remove-button"
 				onClick={() => {
 					removeItem(item.localID);
 				}}
