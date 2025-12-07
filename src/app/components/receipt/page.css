@@ -67,6 +67,28 @@
     transform: translateY(-2px);
 }
 
+.item{
+    margin-top: 1rem;
+    background-color: #1f1f1f;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    color: white;
+}
+
 .item-field{
-    margin: 1rem 0 0 1rem;
+    margin: 1.2rem 0 0 1rem;
+}
+
+.item-input{
+    margin-left: 0.6rem;
+    background-color: #393939;
+    border-color: #ffffff;
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    color: #ffffff;
+    padding: 0.2rem 0 0.2rem 0.4rem;
+    font-size: 1rem;
 }

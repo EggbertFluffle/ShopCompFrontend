@@ -16,10 +16,11 @@ export default function ReceiptItem({
 	const [category, setCatergory] = useState(item.category ?? "");
 
 	return (
-		<div>
+		<div className="item">
 			<div className="item-field">
 				<label>Item name:</label>
 				<input
+					className="item-input"
 					value={name}
 					onChange={(e) => {
 						setName(e.target.value);
@@ -31,6 +32,7 @@ export default function ReceiptItem({
 			<div className="item-field">
 				<label>Price:</label>
 				<input
+					className="item-input"
 					value={price}
 					onChange={(e) => {
 						setPrice(e.target.value);
@@ -42,6 +44,7 @@ export default function ReceiptItem({
 			<div className="item-field">
 				<label>Quantity:</label>
 				<input
+					className="item-input"
 					value={quantity}
 					onChange={(e) => {
 						setQuantity(e.target.value);
@@ -53,6 +56,7 @@ export default function ReceiptItem({
 			<div className="item-field">
 				<label>Category:</label>
 				<input
+					className="item-input"
 					value={category}
 					onChange={(e) => {
 						setCatergory(e.target.value);
