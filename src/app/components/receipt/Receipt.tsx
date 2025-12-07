@@ -7,52 +7,62 @@ import ReceiptItem from "./ReceiptItem";
 import AnalyzeModal from "./AnalyzeModal";
 import { instance } from "../lib/Endpoint";
 import { shopper } from "../lib/Shopper";
+import AddStores from "./AddStores";
 
 type ListedStore = {
-	"chain-name": string;
 	address: string;
 	"store-uuid": string;
+}
+
+type ListedChain = {
+	"name": string;
+	"url": string;
+	"chain-uuid": string;
+	stores: ListedStore[]
 };
 
 export default function Receipt() {
 	const [date, setDate] = useState(new Date().toISOString().split("T")[0]); //GPT
-	const [stores, setStores] = useState<ListedStore[]>([]);
+	const [chains, setChains] = useState<ListedChain[]>([]);
 	const [storeUUID, setStoreUUID] = useState("");
 	const [items, setItems] = useState<Item[]>([]);
 	const [receiptError, setReceiptError] = useState("");
 	const [analyzingReceipt, setAnalyzingReceipt] = useState(false);
 
-	useEffect(() => {
-		// I added it again because of the render infinite loop
+	const fetchChains = () => {
 		instance
 			.get("get-store-chains")
 			.then((response) => {
 				const chains = response.data.chains;
 
-				let newStores: {
-					"chain-name": string;
-					address: string;
-					"store-uuid": string;
-				}[] = [];
+				let new_chains: ListedChain[] = [];
+
+				console.log(response);
 
 				for (let chain of chains) {
+					new_chains.push({
+						name: chain.name,
+						url: chain.url,
+						"chain-uuid": chain["store-chain-uuid"],
+						stores: []
+					} as ListedChain);
 					for (let store of chain.stores) {
-						newStores.push({
-							"chain-name": chain.name as string,
+						new_chains[new_chains.length - 1].stores.push({
 							address: store.address as string,
 							"store-uuid": store["store-uuid"] as string,
 						} as ListedStore);
 					}
 				}
 
-				setStores(newStores);
+				setChains(new_chains);
 			})
 			.catch((err) => console.error(err));
-	}, []);
+	}
 
-	// function removeItem(uuid: string) {
-	// 	setItems(items.filter((i) => i.uuid != uuid));
-	// }
+	useEffect(() => {
+		// I added it again because of the render infinite loop
+		fetchChains();
+	}, []);
 
 	function removeItem(localID: string) {
 		setItems(items.filter((i) => i.localID !== localID));
@@ -174,15 +184,72 @@ export default function Receipt() {
 				})}
 			</select>
 			<div>
-				{items.map((el) => {
-					return (
-						<ReceiptItem
-							key={el.localID}
-							item={el}
-							removeItem={removeItem}
-						/>
-					);
-				})}
+				{receiptError != "" ? <p>{receiptError}</p> : <></>}
+				<input
+					type="date"
+					value={date}
+					onChange={(e) => setDate(e.target.value)}
+				/>
+				<select
+					name="Store"
+					onChange={(e) => {
+						setStoreUUID(e.target.value);
+					}}
+				>
+					<option key={"choose-store"} value="choose-store">
+						Choose store
+					</option>
+					{chains.map((chain: ListedChain) => {
+						let stores: any[] = [];
+
+						chain.stores.map((store: ListedStore) => {
+							stores.push(
+								<option
+									key={store["store-uuid"]}
+									value={store["store-uuid"]}
+								>
+									{chain.name} | {store.address}
+								</option>
+							);
+						});
+
+						return stores;
+					})}
+				</select>
+				<div>
+					{items.map((el) => {
+						return (
+							<ReceiptItem
+								key={el.localID}
+								item={el}
+								removeItem={removeItem}
+							/>
+						);
+					})}
+				</div>
+				<button
+					onClick={() => {
+						setItems([...items, new Item("", 0, 1, "")]);
+					}}
+				>
+					Add Item
+				</button>
+				<button
+					onClick={() => {
+						submitReceipt();
+					}}
+				>
+					Submit Receipt
+				</button>
+
+				<button
+					onClick={() => {
+						setAnalyzingReceipt(true);
+					}}
+				>
+					Analyze with AI
+				</button>
+				{analyzingReceipt ? <AnalyzeModal onParsed={loadReceipt} /> : null}
 			</div>
 			<button
 				className="add-item-button"
@@ -217,6 +284,7 @@ export default function Receipt() {
 					/>
 				) : null
 			}
+			<AddStores chains={chains} fetchChains={fetchChains}/>
 		</div>
 	);
 }
