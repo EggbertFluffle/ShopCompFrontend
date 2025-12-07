@@ -172,16 +172,16 @@ export default function Receipt() {
 				<option key={"choose-store"} value="choose-store">
 					Choose store
 				</option>
-				{stores.map((store: ListedStore) => {
-					return (
-						<option
+				{chains.map((chain: ListedChain) => {
+					return chain.stores.map((store: ListedStore) => {
+						return (<option
 							key={store["store-uuid"]}
 							value={store["store-uuid"]}
 						>
-							{store["chain-name"]} | {store.address}
-						</option>
-					);
-				})}
+							{chain.name} - {store.address}
+						</option>);
+					})
+				}).flat()}
 			</select>
 			<div>
 				{receiptError != "" ? <p>{receiptError}</p> : <></>}

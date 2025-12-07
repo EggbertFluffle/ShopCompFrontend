@@ -58,18 +58,19 @@ export default function AddStores({chains, fetchChains}: {chains: ListedChain[],
 	const submitStore = async function (chain_uuid: string) {
 		const payload = {
 			"store-chain-uuid": chain_uuid,
-			"store-address": storeAddress
+			"address": storeAddress
 		};
 
-		console.log("Add store is not deployed YET")
-		return;
+		console.log(payload);
 
-		instance.post("add-chain", payload)
+		instance.post("add-store", payload)
 			.then(() => {
-				// setAddStoreModal("");
-				// setStoreAddress("");
-				// fetchChains();
-			})
+				setAddStoreModal("");
+				setStoreAddress("");
+				fetchChains();
+			}).catch((err) => {
+				console.error(err);
+			});
 	}
 
 	return (
