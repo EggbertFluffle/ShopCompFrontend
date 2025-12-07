@@ -39,29 +39,34 @@ export default function LoginShopper({
 
 	return (
 		<div>
-			<div>
+			<div className="login-section">
 				<h1>Login Shopper</h1>
 
 				{loginError != "" ? <p>{loginError}</p> : <></>}
 
 				<form ref={formRef} onSubmit={handleSubmit}>
-					<label>
-						Name:
+					<label className="credentials-input">
+						Username:
 						<input type="text" name="username" />
 					</label>
 					<br />
-					<label>
+					<label className="credentials-input">
 						Password:
 						<input type="password" name="password" />
 					</label>
 					<br />
-					<button type="submit">Login</button>
+					<button className="login-button" type="submit">
+						Login
+					</button>
 				</form>
-			</div>
-			<div>
-				<button onClick={() => setState("register-shopper")}>
-					Don't have an account? Register
-				</button>
+				<div>
+					<button
+						className="switch-link"
+						onClick={() => setState("register-shopper")}
+					>
+						Don't have an account? Register
+					</button>
+				</div>
 			</div>
 		</div>
 	);

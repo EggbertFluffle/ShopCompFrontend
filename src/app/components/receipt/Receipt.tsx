@@ -154,7 +154,35 @@ export default function Receipt() {
 	};
 
 	return (
-		<div>
+		<div className="receipt-main">
+			{receiptError != "" ? <p>{receiptError}</p> : <></>}
+			<input
+				className="date-picker"
+				type="date"
+				value={date}
+				onChange={(e) => setDate(e.target.value)}
+			/>
+			<select
+				className="store-picker"
+				name="Store"
+				onChange={(e) => {
+					setStoreUUID(e.target.value);
+				}}
+			>
+				<option key={"choose-store"} value="choose-store">
+					Choose store
+				</option>
+				{stores.map((store: ListedStore) => {
+					return (
+						<option
+							key={store["store-uuid"]}
+							value={store["store-uuid"]}
+						>
+							{store["chain-name"]} | {store.address}
+						</option>
+					);
+				})}
+			</select>
 			<div>
 				{receiptError != "" ? <p>{receiptError}</p> : <></>}
 				<input
@@ -223,6 +251,39 @@ export default function Receipt() {
 				</button>
 				{analyzingReceipt ? <AnalyzeModal onParsed={loadReceipt} /> : null}
 			</div>
+			<button
+				className="add-item-button"
+				onClick={() => {
+					setItems([...items, new Item("", 0, 1, "")]);
+				}}
+			>
+				Add Item
+			</button>
+			<button
+				className="add-item-button" /*im using the same css*/
+				onClick={() => {
+					submitReceipt();
+				}}
+			>
+				Submit Receipt
+			</button>
+
+			<button
+				className="ai-button"
+				onClick={() => {
+					setAnalyzingReceipt(true);
+				}}
+			>
+				Analyze with AI
+			</button>
+			{
+				analyzingReceipt ? (
+					<AnalyzeModal
+						onParsed={loadReceipt}
+						onClose={() => setAnalyzingReceipt(false)}
+					/>
+				) : null
+			}
 			<AddStores chains={chains} fetchChains={fetchChains}/>
 		</div>
 	);

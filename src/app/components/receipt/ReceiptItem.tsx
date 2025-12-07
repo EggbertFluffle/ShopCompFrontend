@@ -16,10 +16,11 @@ export default function ReceiptItem({
 	const [category, setCatergory] = useState(item.category ?? "");
 
 	return (
-		<div>
-			<div>
+		<div className="item">
+			<div className="item-field">
 				<label>Item name:</label>
 				<input
+					className="item-input"
 					value={name}
 					onChange={(e) => {
 						setName(e.target.value);
@@ -28,9 +29,10 @@ export default function ReceiptItem({
 				/>
 			</div>
 
-			<div>
+			<div className="item-field">
 				<label>Price:</label>
 				<input
+					className="item-input"
 					value={price}
 					onChange={(e) => {
 						setPrice(e.target.value);
@@ -39,28 +41,31 @@ export default function ReceiptItem({
 				/>
 			</div>
 
-			<div>
+			<div className="item-field">
 				<label>Quantity:</label>
-				<div>
-					<input
-						value={quantity}
-						onChange={(e) => {
-							setQuantity(e.target.value);
-							item.quantity = parseInt(e.target.value);
-						}}
-					/>
-				</div>
+				<input
+					className="item-input"
+					value={quantity}
+					onChange={(e) => {
+						setQuantity(e.target.value);
+						item.quantity = parseInt(e.target.value);
+					}}
+				/>
 			</div>
 
-			<label>Category:</label>
-			<input
-				value={category}
-				onChange={(e) => {
-					setCatergory(e.target.value);
-					item.category = e.target.value;
-				}}
-			/>
+			<div className="item-field">
+				<label>Category:</label>
+				<input
+					className="item-input"
+					value={category}
+					onChange={(e) => {
+						setCatergory(e.target.value);
+						item.category = e.target.value;
+					}}
+				/>
+			</div>
 			<button
+				className="remove-button"
 				onClick={() => {
 					removeItem(item.localID);
 				}}
