@@ -85,23 +85,52 @@ export default function AddStores({chains, fetchChains}: {chains: ListedChain[],
 				getChainModal();
 			}}>Add Chain</button>
 			{chains.map((chain) => {
-				return <div>
-					<p><strong>{chain.name}</strong></p>
-					<p><a href={chain.url}>Website</a></p>
-					<ul>
-						{chain.stores.map((store: ListedStore) => {
-							return (<li key={store["store-uuid"]}>{chain.name} | {store.address}</li>);
-						})}
-					</ul>
-					{addStoreModal == chain["chain-uuid"] ? <div>
-						<label>Store address: </label>
-						<input type="text" placeholder="Store Address" onChange={(e) => { setStoreAddress(e.target.value) }}/>
-						<button onClick={() => { submitStore(addStoreModal) }}>Submit New Store</button>
-					</div> : <button onClick={() => {
-						getStoreModal(chain);
-					}}>Add Store</button>}
-
-				</div>
+				return (
+					<div key={chain["chain-uuid"]}>
+						<p>
+							<strong>{chain.name}</strong>
+						</p>
+						<p>
+							<a href={chain.url}>Website</a>
+						</p>
+						<ul>
+							{chain.stores.map((store: ListedStore) => {
+								return (
+									<li key={store["store-uuid"]}>
+										{chain.name} | {store.address}
+									</li>
+								);
+							})}
+						</ul>
+						{addStoreModal == chain["chain-uuid"] ? (
+							<div>
+								<label>Store address: </label>
+								<input
+									type="text"
+									placeholder="Store Address"
+									onChange={(e) => {
+										setStoreAddress(e.target.value);
+									}}
+								/>
+								<button
+									onClick={() => {
+										submitStore(addStoreModal);
+									}}
+								>
+									Submit New Store
+								</button>
+							</div>
+						) : (
+							<button
+								onClick={() => {
+									getStoreModal(chain);
+								}}
+							>
+								Add Store
+							</button>
+						)}
+					</div>
+				);
 			})}
 		</div>
 	)
