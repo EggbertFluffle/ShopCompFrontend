@@ -1,3 +1,9 @@
+.receipt-page {
+    display: flex;
+    gap: 2rem;
+    padding-right: 1rem;
+}
+
 .receipt-main{
     margin: 1rem 0 0 1rem;
 }
@@ -202,4 +208,138 @@
     background-color: #ffffff;
     color: #1f1f1f;
     transform: translateY(-2px);
+}
+
+.store-panel {
+    background: #1f1f1f;
+    padding: 1rem 1rem 0 1rem;
+    border-style: solid;
+    border-radius: 6px;
+    border-color: #ffffff;
+    border-width: 1px;
+    height: max-content;
+    margin-left: auto;
+}
+
+.add-chain-button {
+    margin: 0rem 1rem 0 0;
+    background-color: white;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    color: #1f1f1f;
+    padding: 0.3rem 1.4rem 0.3rem 1.4rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
+}
+
+.add-chain-button:hover {
+    background-color: #1f1f1f;
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+.submit-chain-button {
+    margin: 2rem 1.4rem 0 7rem;
+    background-color: white;
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    color: #1f1f1f;
+    padding: 0.3rem 1.2rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.5s ease,
+        color 0.5s ease,
+        transform 0.15s ease;
+}
+
+.submit-chain-button:hover {
+    background-color: #1f1f1f;
+    border-style: solid;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.chain-inputs{
+    margin-bottom: 1rem;
+}
+
+.chain-info-field {
+    margin-left: 0.4rem;
+    padding: 0.3rem 0 0.3rem 0.4rem;
+
+    background-color: #393939;
+    border-color: #ffffff;
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    color: #ffffff;
+}
+
+.chain-section{
+    margin: 1rem 0 1rem 0;
+    padding: 0rem 1rem 1rem 1rem;
+    border-style: solid;
+    border-radius: 4px;
+    border-color: #ffffff;
+    border-width: 1px;
+}
+
+.add-store-button {
+    margin-left: auto;
+    display: block;
+    background-color: #1f1f1f;
+    border-radius: 4px;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    color: white;
+    padding: 0.3rem 1rem 0.3rem 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.add-store-button:hover {
+    background-color: #393939;
+    transform: translateY(-2px);
+}
+
+.submit-store-button {
+    margin: 2rem 1.4rem 0 7rem;
+    background-color: white;
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    color: #1f1f1f;
+    padding: 0.3rem 1.2rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.5s ease,
+        color 0.5s ease,
+        transform 0.15s ease;
+}
+
+.submit-store-button:hover {
+    background-color: #1f1f1f;
+    border-style: solid;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.store-info-field {
+    margin-left: 0.4rem;
+    padding: 0.3rem 0 0.3rem 0.4rem;
+
+    background-color: #393939;
+    border-color: #ffffff;
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    color: #ffffff;
 }
