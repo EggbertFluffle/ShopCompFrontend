@@ -1,8 +1,6 @@
 "use client";
-import { userInfo } from "node:os";
 import { instance } from "../lib/Endpoint"
 import { useState } from "react";
-import { shopper } from "../lib/Shopper";
 
 type ListedStore = {
 	address: string;
