@@ -1,4 +1,6 @@
 "use client";
+import "./page.css";
+
 import { instance } from "../lib/Endpoint"
 import { useState } from "react";
 

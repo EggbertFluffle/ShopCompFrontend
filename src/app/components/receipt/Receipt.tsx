@@ -182,74 +182,19 @@ export default function Receipt() {
 					})
 				}).flat()}
 			</select>
+				
 			<div>
-				{receiptError != "" ? <p>{receiptError}</p> : <></>}
-				<input
-					type="date"
-					value={date}
-					onChange={(e) => setDate(e.target.value)}
-				/>
-				<select
-					name="Store"
-					onChange={(e) => {
-						setStoreUUID(e.target.value);
-					}}
-				>
-					<option key={"choose-store"} value="choose-store">
-						Choose store
-					</option>
-					{chains.map((chain: ListedChain) => {
-						let stores: any[] = [];
-
-						chain.stores.map((store: ListedStore) => {
-							stores.push(
-								<option
-									key={store["store-uuid"]}
-									value={store["store-uuid"]}
-								>
-									{chain.name} | {store.address}
-								</option>
-							);
-						});
-
-						return stores;
-					})}
-				</select>
-				<div>
-					{items.map((el) => {
-						return (
-							<ReceiptItem
-								key={el.localID}
-								item={el}
-								removeItem={removeItem}
-							/>
-						);
-					})}
-				</div>
-				<button
-					onClick={() => {
-						setItems([...items, new Item("", 0, 1, "")]);
-					}}
-				>
-					Add Item
-				</button>
-				<button
-					onClick={() => {
-						submitReceipt();
-					}}
-				>
-					Submit Receipt
-				</button>
-
-				<button
-					onClick={() => {
-						setAnalyzingReceipt(true);
-					}}
-				>
-					Analyze with AI
-				</button>
-				{analyzingReceipt ? <AnalyzeModal onParsed={loadReceipt} /> : null}
+				{items.map((el) => {
+					return (
+						<ReceiptItem
+							key={el.localID}
+							item={el}
+							removeItem={removeItem}
+						/>
+					);
+				})}
 			</div>
+
 			<button
 				className="add-item-button"
 				onClick={() => {
