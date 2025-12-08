@@ -153,82 +153,88 @@ export default function Receipt() {
 	};
 
 	return (
-		<div className="receipt-main">
-			{receiptError != "" ? <p>{receiptError}</p> : <></>}
-			<input
-				className="date-picker"
-				type="date"
-				value={date}
-				onChange={(e) => setDate(e.target.value)}
-			/>
-			<select
-				className="store-picker"
-				name="Store"
-				onChange={(e) => {
-					setStoreUUID(e.target.value);
-				}}
-			>
-				<option key={"choose-store"} value="choose-store">
-					Choose store
-				</option>
-				{chains.map((chain: ListedChain) => {
-					return chain.stores.map((store: ListedStore) => {
-						return (<option
-							key={store["store-uuid"]}
-							value={store["store-uuid"]}
-						>
-							{chain.name} - {store.address}
-						</option>);
-					})
-				}).flat()}
-			</select>
-				
-			<div>
-				{items.map((el) => {
-					return (
-						<ReceiptItem
-							key={el.localID}
-							item={el}
-							removeItem={removeItem}
-						/>
-					);
-				})}
-			</div>
+		<div className="receipt-page">
+			<div className="receipt-main">
+				{receiptError != "" ? <p>{receiptError}</p> : <></>}
+				<input
+					className="date-picker"
+					type="date"
+					value={date}
+					onChange={(e) => setDate(e.target.value)}
+				/>
+				<select
+					className="store-picker"
+					name="Store"
+					onChange={(e) => {
+						setStoreUUID(e.target.value);
+					}}
+				>
+					<option key={"choose-store"} value="choose-store">
+						Choose store
+					</option>
+					{chains
+						.map((chain: ListedChain) => {
+							return chain.stores.map((store: ListedStore) => {
+								return (
+									<option
+										key={store["store-uuid"]}
+										value={store["store-uuid"]}
+									>
+										{chain.name} - {store.address}
+									</option>
+								);
+							});
+						})
+						.flat()}
+				</select>
 
-			<button
-				className="add-item-button"
-				onClick={() => {
-					setItems([...items, new Item("", 0, 1, "")]);
-				}}
-			>
-				Add Item
-			</button>
-			<button
-				className="add-item-button" /*im using the same css*/
-				onClick={() => {
-					submitReceipt();
-				}}
-			>
-				Submit Receipt
-			</button>
+				<div>
+					{items.map((el) => {
+						return (
+							<ReceiptItem
+								key={el.localID}
+								item={el}
+								removeItem={removeItem}
+							/>
+						);
+					})}
+				</div>
 
-			<button
-				className="ai-button"
-				onClick={() => {
-					setAnalyzingReceipt(true);
-				}}
-			>
-				Analyze with AI
-			</button>
-			{
-				analyzingReceipt ? (
+				<button
+					className="add-item-button"
+					onClick={() => {
+						setItems([...items, new Item("", 0, 1, "")]);
+					}}
+				>
+					Add Item
+				</button>
+				<button
+					className="add-item-button" /*im using the same css*/
+					onClick={() => {
+						submitReceipt();
+					}}
+				>
+					Submit Receipt
+				</button>
+
+				<button
+					className="ai-button"
+					onClick={() => {
+						setAnalyzingReceipt(true);
+					}}
+				>
+					Analyze with AI
+				</button>
+				{analyzingReceipt ? (
 					<AnalyzeModal
 						onParsed={loadReceipt}
 						onClose={() => setAnalyzingReceipt(false)}
 					/>
-				) : null
-			}
-			<AddStores chains={chains} fetchChains={fetchChains}/>
+				) : null}
+			</div>
+			<div className="store-panel">
+				<AddStores chains={chains} fetchChains={fetchChains} />
+			</div>
 		</div>
 	);
 }
