@@ -59,6 +59,9 @@ export default function AddStores({
 		setAddChainModal(false);
 		setChainModalName("");
 		setChainModalURL("");
+
+		setAddStoreModal("");
+		setStoreAddress("");
 	};
 
 	const getStoreModal = function (chain: ListedChain) {
@@ -141,47 +144,57 @@ export default function AddStores({
 			</button>
 			{chains.map((chain) => {
 				return (
-					<div key={chain["chain-uuid"]}>
+					<div className="chain-section" key={chain["chain-uuid"]}>
 						<p>
-							<strong>{chain.name}</strong>
-						</p>
-						<p>
-							<a href={chain.url}>Website</a>
+							<a href={chain.url}>{chain.name}</a>
 						</p>
 						<ul>
 							{chain.stores.map((store: ListedStore) => {
 								return (
 									<li key={store["store-uuid"]}>
-										{chain.name} | {store.address}
+										{store.address}
 									</li>
 								);
 							})}
 						</ul>
 						{addStoreModal == chain["chain-uuid"] ? (
-							<div>
-								<label>Store address: </label>
-								<input
-									type="text"
-									placeholder="Store Address"
-									onChange={(e) => {
-										setStoreAddress(e.target.value);
-									}}
-								/>
-								<button
-									onClick={() => {
-										submitStore(addStoreModal);
-									}}
-								>
-									Submit New Store
-								</button>
+							<div className="modal-overlay">
+								<div className="new-store-section modal-box">
+									<label>{chain.name} Store address: </label>
+									<input
+										className="store-info-field"
+										type="text"
+										placeholder="Store Address"
+										onChange={(e) => {
+											setStoreAddress(e.target.value);
+										}}
+									/>
+									<div>
+										<button
+											className="cancel-button"
+											onClick={onClose}
+										>
+											Cancel
+										</button>
+										<button
+											className="submit-store-button"
+											onClick={() => {
+												submitStore(addStoreModal);
+											}}
+										>
+											Submit New Store
+										</button>
+									</div>
+								</div>
 							</div>
 						) : (
 							<button
+								className="add-store-button"
 								onClick={() => {
 									getStoreModal(chain);
 								}}
 							>
-								Add Store
+								Add New Store
 							</button>
 						)}
 					</div>
