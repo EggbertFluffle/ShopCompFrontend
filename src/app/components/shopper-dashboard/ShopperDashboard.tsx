@@ -27,13 +27,6 @@ export default function Dashboard() {
 			});
 	}
 
-	useEffect(() => {
-		reviewHistory(shopper.uuid)
-			.then((list) => {
-				setReceipts(list);
-			})
-	}, []);
-
 	function reviewActivity(shopperUUID: string, timePeriod: string) {
 		return reviewHistory(shopperUUID).then((receipts) => {
 			const now = new Date();
@@ -78,6 +71,17 @@ export default function Dashboard() {
 			return total;
 		});
 	}
+
+	useEffect(() => {
+		reviewActivity(shopper.uuid, "all-time")
+			.then((total) => {
+				setActivityTotal(total);
+			});
+		reviewHistory(shopper.uuid)
+			.then((list) => {
+				setReceipts(list);
+			})
+	}, []);
 
 	function formatDate(isoDate: string) {
 		const clean = isoDate.split("T")[0];
