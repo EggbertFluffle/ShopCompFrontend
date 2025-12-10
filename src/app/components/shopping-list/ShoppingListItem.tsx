@@ -43,7 +43,7 @@ export default function ReceiptItem({
 	}, [item]);
 
 	return (
-		<div>
+		<div className="single-item">
 			{editingName ? (
 				<div>
 					<input
@@ -88,7 +88,7 @@ export default function ReceiptItem({
 						}
 					}}
 				>
-					{name}
+					{name}&nbsp;&nbsp;
 					{!editing ? <button>&#x270E;</button> : ""}
 				</div>
 			)}
@@ -139,7 +139,7 @@ export default function ReceiptItem({
 							setEditing(true);
 						}}
 					>
-						Quantity: {item.quantity}
+						Quantity: {item.quantity}&nbsp;&nbsp;
 						{!editing ? <button>&#x270E;</button> : ""}
 					</span>
 				)}

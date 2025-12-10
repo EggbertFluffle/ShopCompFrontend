@@ -10,6 +10,7 @@
 }
 
 .shopping-list-title{
+    background-color: #1f1f1f;
     margin: 0.4rem 0.4rem 1rem 0.4rem;
     padding: 0.4rem 0.8rem 0.4rem 0.8rem;
     border-style: solid;
@@ -90,4 +91,15 @@
     border-style: solid;
     color: white;
     transform: translateY(-2px);
+}
+
+.single-item{
+    margin: 1rem 0 1rem 0;
+    background-color: #393939;
+    width: 14rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
 }
