@@ -159,6 +159,7 @@ export default function ReceiptItem({
 				)}
 			</div>
 			<button
+				className="edit-button"
 				onClick={() => {
 					if (editing && (editingName || editingQuantity)) {
 						setEditing(false);

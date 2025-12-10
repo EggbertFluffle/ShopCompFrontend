@@ -86,7 +86,7 @@ export default function ShoppingList({
 				)}
 			</h3>
 			<div>
-				<ul>
+				<ul className="single-item-box">
 					{list.items.map((item: Item) => (
 						<ShoppingListItem
 							key={item["item-uuid"]}
@@ -100,6 +100,7 @@ export default function ShoppingList({
 						/>
 					))}
 				</ul>
+				<div className="list-buttons">
 				<button
 					className="action-button"
 					onClick={() =>
@@ -131,6 +132,7 @@ export default function ShoppingList({
 				>
 					Report Options
 				</button>
+				</div>
 			</div>
 		</div>
 	);

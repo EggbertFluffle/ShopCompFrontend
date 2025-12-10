@@ -161,25 +161,35 @@ export default function ShoppingLists() {
 				console.error(err);
 			});
 	};
-	const reportOptions = (shoppingListUUID: string, shoppingListName: string, items: any[]) => {
-		instance.post("report-options-for-shopping-list", {
-			"shopper-uuid": shopper.uuid,
-			"shopper-username": shopper.username,
-			"shopping-list-uuid": shoppingListUUID,
-			"shopping-list-name": shoppingListName,
-			"items": items
-		}).then((response) => {
-			setOptions(response["data"]["items"]);
-		}).catch((err) => {
-			console.error(err);
-		});
+	const reportOptions = (
+		shoppingListUUID: string,
+		shoppingListName: string,
+		items: any[]
+	) => {
+		instance
+			.post("report-options-for-shopping-list", {
+				"shopper-uuid": shopper.uuid,
+				"shopper-username": shopper.username,
+				"shopping-list-uuid": shoppingListUUID,
+				"shopping-list-name": shoppingListName,
+				items: items,
+			})
+			.then((response) => {
+				setOptions(response["data"]["items"]);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	};
+	const onClose = () => {
+		setOptions([]);
 	};
 	return (
 		<div>
 			{shopper.uuid ? (
 				lists && (
 					<>
-						<div>
+						<div className="shopping-list-lists">
 							<button
 								className="create-new-shopping-list-button"
 								onClick={() => {
@@ -203,9 +213,19 @@ export default function ShoppingLists() {
 								/>
 							))}
 						</div>
-						<div>
-							<ReportOptions items={options} />
-						</div>
+						{options.length > 0 && (
+							<div className="option-modal-overlay">
+								<div className="option-modal-box">
+									<ReportOptions items={options} />
+									<button
+										className="exit-button"
+										onClick={onClose}
+									>
+										Exit
+									</button>
+								</div>
+							</div>
+						)}
 					</>
 				)
 			) : (
