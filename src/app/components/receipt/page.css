@@ -1,7 +1,14 @@
 .receipt-page {
     display: flex;
     gap: 2rem;
-    padding-right: 1rem;
+	margin-inline: 5rem;
+}
+
+.receipt-items {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 .receipt-main{
@@ -31,8 +38,11 @@
     cursor: pointer;
 }
 
+.buttons-container {
+	width: 75%;
+}
+
 .add-item-button{
-    margin: 1rem 1rem 0 0;
     background-color: #1f1f1f;
     border-radius: 6px;
     border-style: solid;
@@ -51,7 +61,6 @@
 }
 
 .ai-button {
-    margin-top: 1rem;
     background-color: white;
     border-radius: 6px;
     border-style: solid;
@@ -103,10 +112,8 @@
 .remove-button{
     margin-top: 1rem;
     background-color: #393939;
-    border-color: #ffffff;
-    border-style: solid;
+	border: solid white 1px;
     border-radius: 6px;
-    border-width: 1px;
     color: #ffffff;
     padding: 0.4rem 0.6rem 0.4rem 0.6rem;
     cursor: pointer;
@@ -141,7 +148,7 @@
 }
 
 .modal-box {
-    padding: 1.4rem 0 1rem 1.4rem;
+    padding: 1.4rem 1rem;
     border: 1px solid #ffffff;
     border-radius: 8px;
     background-color: #1f1f1f;
@@ -171,7 +178,6 @@
 }
 
 .analyze-button {
-    margin: 4rem 0 0 9rem;
     background-color: white;
     border-radius: 6px;
     border-style: solid;
@@ -184,6 +190,16 @@
     transition: background-color 0.5s ease,
         color 0.5s ease,
         transform 0.15s ease;
+}
+
+.flex {
+	display: flex;
+	margin-top: 1rem;
+	justify-content: space-evenly;
+}
+
+.flex > button {
+	margin: 0.25rem;
 }
 
 .analyze-button:hover {
@@ -222,7 +238,6 @@
 }
 
 .add-chain-button {
-    margin: 0rem 1rem 0 0;
     background-color: white;
     border-radius: 6px;
     border-style: solid;
@@ -242,7 +257,6 @@
 }
 
 .submit-chain-button {
-    margin: 2rem 1.4rem 0 7rem;
     background-color: white;
     border-radius: 6px;
     border-style: solid;
@@ -325,6 +339,8 @@
         transform 0.15s ease;
 }
 
+
+
 .submit-store-button:hover {
     background-color: #1f1f1f;
     border-style: solid;
@@ -342,6 +358,12 @@
     border-radius: 4px;
     border-width: 1px;
     color: #ffffff;
+}
+
+.add-stores-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .error {

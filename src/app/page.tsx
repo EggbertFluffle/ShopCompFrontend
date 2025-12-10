@@ -9,6 +9,7 @@ import RegisterShopper from './components/register-shopper/RegisterShopper';
 import ShopperDashboard from './components/shopper-dashboard/ShopperDashboard';
 import AdminDashboard from './components/admin-dashboard/AdminDashboard';
 
+import { shopper } from './components/lib/Shopper';
 import "./page.css";
 
 export default function Home() {
@@ -41,25 +42,27 @@ export default function Home() {
 		<>
 			{(state == "login-shopper" || state == "register-shopper") ?
 				<></> :
-				<nav className="nav">
-					<button
-						className={state == "receipt" ? "selected" : ""}
-						onClick={() => {
-							setState("receipt");
-						}}>Receipts</button>
+				<div className="container">
+					<nav className="nav">
+						<button
+							className={state == "receipt" ? "selected" : ""}
+							onClick={() => {
+								setState("receipt");
+							}}>Receipts</button>
 
-					<button
-						className={state == "shopping-list" ? "selected" : ""}
-						onClick={() => {
-							setState("shopping-list");
-						}}>Shopping Lists</button>
+						<button
+							className={state == "shopping-list" ? "selected" : ""}
+							onClick={() => {
+								setState("shopping-list");
+							}}>Shopping Lists</button>
 
-					<button
-						className={state == "shopper-dashboard" ? "selected" : ""}
-						onClick={() => {
-							setState("shopper-dashboard");
-						}}>Dashboard</button>
-				</nav>
+						<button
+							className={state == "shopper-dashboard" ? "selected" : ""}
+							onClick={() => {
+								setState("shopper-dashboard");
+							}}>Dashboard</button>
+					</nav>
+				</div>
 			}
 			{displayComponent(state)}
 		</>

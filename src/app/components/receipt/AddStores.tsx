@@ -106,7 +106,8 @@ export default function AddStores({
 	};
 
 	return (
-		<div>
+		<div className="add-stores-container">
+			<h2>Store Chains</h2>
 			{addChainModal ? (
 				<div className="modal-overlay">
 					<div className="new-chain-section modal-box">
@@ -193,7 +194,7 @@ export default function AddStores({
 											setStoreAddress(e.target.value);
 										}}
 									/>
-									<div>
+									<div className="flex">
 										<button
 											className="cancel-button"
 											onClick={onClose}

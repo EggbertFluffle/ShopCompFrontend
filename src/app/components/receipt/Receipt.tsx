@@ -155,13 +155,15 @@ export default function Receipt() {
 	return (
 		<div className="receipt-page">
 			<div className="receipt-main">
+				<h2>Receipts</h2>
 				{receiptError != "" ? <p>{receiptError}</p> : <></>}
-				<input
+				<label>Date: <input
 					className="date-picker"
 					type="date"
 					value={date}
 					onChange={(e) => setDate(e.target.value)}
-				/>
+				/></label>
+				<label>Store: &nbsp;
 				<select
 					className="store-picker"
 					name="Store"
@@ -186,9 +188,9 @@ export default function Receipt() {
 							});
 						})
 						.flat()}
-				</select>
+				</select></label>
 
-				<div>
+				<div className="receipt-items">
 					{items.map((el) => {
 						return (
 							<ReceiptItem
@@ -198,40 +200,41 @@ export default function Receipt() {
 							/>
 						);
 					})}
+					<div className="buttons-container">
+						<button
+							className="add-item-button"
+							onClick={() => {
+								setItems([...items, new Item("", 0, 1, "")]);
+							}}
+						>
+							Add Item
+						</button>
+						<button
+							className="add-item-button" /*im using the same css*/
+							onClick={() => {
+								submitReceipt();
+							}}
+						>
+							Submit Receipt
+						</button>
+						<button
+							className="ai-button"
+							onClick={() => {
+								setAnalyzingReceipt(true);
+							}}
+						>
+							Analyze with AI
+						</button>
+					</div>
+					{analyzingReceipt ? (
+						<AnalyzeModal
+							onParsed={loadReceipt}
+							onClose={() => setAnalyzingReceipt(false)}
+						/>
+					) : null}
+				</div>
 				</div>
 
-				<button
-					className="add-item-button"
-					onClick={() => {
-						setItems([...items, new Item("", 0, 1, "")]);
-					}}
-				>
-					Add Item
-				</button>
-				<button
-					className="add-item-button" /*im using the same css*/
-					onClick={() => {
-						submitReceipt();
-					}}
-				>
-					Submit Receipt
-				</button>
-
-				<button
-					className="ai-button"
-					onClick={() => {
-						setAnalyzingReceipt(true);
-					}}
-				>
-					Analyze with AI
-				</button>
-				{analyzingReceipt ? (
-					<AnalyzeModal
-						onParsed={loadReceipt}
-						onClose={() => setAnalyzingReceipt(false)}
-					/>
-				) : null}
-			</div>
 			<div className="store-panel">
 				<AddStores chains={chains} fetchChains={fetchChains} />
 			</div>

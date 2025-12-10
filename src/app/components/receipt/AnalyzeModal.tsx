@@ -63,6 +63,8 @@ export default function AnalyzeModal({ onParsed, onClose }) {
 	return (
 		<div className="modal-overlay">
 			<div className="ai-receipt-section modal-box">
+				<h2>Analyze With AI</h2>
+				<br/>
 				<label>OpenAI API Key:</label>
 				<input
 					className="api-field"
@@ -78,8 +80,8 @@ export default function AnalyzeModal({ onParsed, onClose }) {
 					accept="image/*, .pdf"
 					onChange={handleFileChange}
 				/>
-				
-				<div>
+
+				<div className="flex">
 					<button className="cancel-button" onClick={onClose}>
 						Cancel
 					</button>
