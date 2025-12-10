@@ -176,33 +176,41 @@ export default function ShoppingLists() {
 	};
 	return (
 		<div>
-			{ shopper.uuid ? lists &&
-			<>
-				<div>
-					{lists.map((list) => (
-						<ShoppingList
-							key={list["shopping-list-uuid"]}
-							list={list}
-							modifyItem={modifyItem}
-							removeItem={removeItem}
-							addItem={addItem}
-							deleteList={deleteList}
-							modifyListName={modifyListName}
-							editing={isEditing}
-							setEditing={setIsEditing}
-							reportOptions={reportOptions}
-						/>
-					))}
-					<button onClick={() => {
-						createNewList();
-					}}>Create New Shopping List</button>
-				</div>
-				<div>
-					<ReportOptions items={options}/>
-				</div>
-			</>
-			: <p>Please log in to view your shopping lists.</p>
-			}
+			{shopper.uuid ? (
+				lists && (
+					<>
+						<div>
+							<button
+								className="create-new-shopping-list-button"
+								onClick={() => {
+									createNewList();
+								}}
+							>
+								Create New Shopping List
+							</button>
+							{lists.map((list) => (
+								<ShoppingList
+									key={list["shopping-list-uuid"]}
+									list={list}
+									modifyItem={modifyItem}
+									removeItem={removeItem}
+									addItem={addItem}
+									deleteList={deleteList}
+									modifyListName={modifyListName}
+									editing={isEditing}
+									setEditing={setIsEditing}
+									reportOptions={reportOptions}
+								/>
+							))}
+						</div>
+						<div>
+							<ReportOptions items={options} />
+						</div>
+					</>
+				)
+			) : (
+				<p>Please log in to view your shopping lists.</p>
+			)}
 		</div>
 	);
 }
