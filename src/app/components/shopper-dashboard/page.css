@@ -54,3 +54,32 @@
     font-style: italic;
 }
 
+.container {
+	display: flex;
+	flex-direction: row;
+}
+
+.search-history {
+	flex-grow: 1;
+	background: #1f1f1f;
+	padding: 1rem 1rem 0 1rem;
+	border-style: solid;
+	border-radius: 6px;
+	border-color: #ffffff;
+	border-width: 1px;
+	height: max-content;
+	margin-left: auto;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > td {
+	border: 3px solid white;
+	border-radius: 6px;
+	padding-inline: 1rem;
+	height: 0.25rem;
+}
+
+.other-thing {
+	flex-grow: 1;
+}
+

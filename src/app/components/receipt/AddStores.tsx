@@ -25,9 +25,11 @@ export default function AddStores({
 }) {
 	let [addChainModal, setAddChainModal] = useState(false);
 	let [addStoreModal, setAddStoreModal] = useState("");
+	let [storeModalError, setStoreModalError] = useState("");
 
 	let [chainModalName, setChainModalName] = useState("");
 	let [chainModalURL, setChainModalURL] = useState("");
+	let [chainModalError, setChainModalError] = useState("");
 
 	let [storeAddress, setStoreAddress] = useState("");
 
@@ -38,30 +40,39 @@ export default function AddStores({
 	};
 
 	const submitChain = async function () {
-		setAddChainModal(false);
+		if(chainModalName == "" || chainModalURL == "") {
+			setChainModalError("Please give a valid chain name and url");
+			return;
+		}
 
 		const payload = {
 			"store-chain-url": chainModalURL,
 			"store-chain-name": chainModalName,
 		};
 
-		console.log("payload");
-
-		instance.post("add-chain", payload).then(() => {
-			setAddChainModal(false);
-			setChainModalName("");
-			setChainModalURL("");
-			fetchChains();
-		});
+		instance.post("add-chain", payload)
+			.then(() => {
+				setAddChainModal(false);
+				setChainModalName("");
+				setChainModalURL("");
+				setChainModalError("");
+				fetchChains();
+			}).catch((e) => {
+				console.error(e);
+			});
 	};
 
 	const onClose = () => {
 		setAddChainModal(false);
 		setChainModalName("");
+		setChainModalError("");
 		setChainModalURL("");
 
 		setAddStoreModal("");
 		setStoreAddress("");
+		setStoreModalError("");
+
+		fetchChains();
 	};
 
 	const getStoreModal = function (chain: ListedChain) {
@@ -70,6 +81,11 @@ export default function AddStores({
 	};
 
 	const submitStore = async function (chain_uuid: string) {
+		if(storeAddress == "") {
+			setStoreModalError("Please enter a valid address for the new store");
+			return;
+		}
+
 		const payload = {
 			"store-chain-uuid": chain_uuid,
 			address: storeAddress,
@@ -95,6 +111,10 @@ export default function AddStores({
 				<div className="modal-overlay">
 					<div className="new-chain-section modal-box">
 						<div className="chain-inputs">
+							<h2 className="modal-title">Add Chain</h2>
+							{chainModalError.length == 0 ?
+								<></> :
+								<p className="error">{chainModalError}</p>}
 							<label>Chain name: </label>
 							<input
 								className="chain-info-field"
@@ -160,6 +180,10 @@ export default function AddStores({
 						{addStoreModal == chain["chain-uuid"] ? (
 							<div className="modal-overlay">
 								<div className="new-store-section modal-box">
+									<h2 className="modal-title">Add Store</h2>
+									{storeModalError.length == 0 ?
+										<></> :
+										<p className="error">{storeModalError}</p>}
 									<label>{chain.name} Store address: </label>
 									<input
 										className="store-info-field"

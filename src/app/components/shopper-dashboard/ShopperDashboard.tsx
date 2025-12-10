@@ -84,72 +84,109 @@ export default function Dashboard() {
 		});
 	}, []);
 
+	let [filteredItems, setFilteredItems] = useState([]);
+	const filter = (search: string) => {
+		let out = [];
+		for(let r of receipts) {
+			for(let i of r.items) {
+				const name: string = i.name;
+				if(name.includes(search)) {
+					out.push(i);
+				}
+			}
+		}
+		setFilteredItems(out);
+	}
+
 	return (
 		<div>
-			<label className="username">Shopper: {shopper.username}</label>
+			<h1 className="username">Shopper: {shopper.username}</h1>
+			<div className="container">
+				<div className="other-thing">
+					<h2 className="review-activity">Review Activity:</h2>
+					<select
+						className="review-period-select"
+						value={period}
+						onChange={(e) => {
+							const p = e.target.value;
+							setPeriod(p);
 
-			<label className="review-activity">Review Activity:</label>
-			<select
-				className="review-period-select"
-				value={period}
-				onChange={(e) => {
-					const p = e.target.value;
-					setPeriod(p);
+							reviewActivity(shopper.uuid, p).then((total) => {
+								setActivityTotal(total);
+							});
+						}}
+					>
+						<option value="all-time">All Time</option>
+						<option value="last-day">Last Day</option>
+						<option value="last-week">Last Week</option>
+						<option value="last-month">Last Month</option>
+					</select>
+					<p className="total-spending">Total Spending: ${activityTotal.toFixed(2)}</p>
 
-					reviewActivity(shopper.uuid, p).then((total) => {
-						setActivityTotal(total);
-					});
-				}}
-			>
-				<option value="all-time">All Time</option>
-				<option value="last-day">Last Day</option>
-				<option value="last-week">Last Week</option>
-				<option value="last-month">Last Month</option>
-			</select>
+					<button
+						className="review-history-button"
+						onClick={() => {
+							reviewHistory(shopper.uuid).then((list) => {
+								setReceipts(list);
+							});
+						}}
+					>
+						Review History
+					</button>
 
-			<p className="total-spending">Total Spending: ${activityTotal.toFixed(2)}</p>
+					<div>
+						{receipts.map((r) => {
+							const receiptTotal = r.items.reduce(
+								(sum, item) => sum + item.price * item.quantity,
+								0
+							);
 
-			<button
-				className="review-history-button"
-				onClick={() => {
-					reviewHistory(shopper.uuid).then((list) => {
-						setReceipts(list);
-					});
-				}}
-			>
-				Review History
-			</button>
+							return (
+								<div className="receipt-card" key={r["receipt-uuid"]}>
+									<p>Date: {formatDate(r.date)}</p>
+									<p>
+										Store: ({r.chainName}) {r.store.address}
+									</p>
 
-			<div>
-				{receipts.map((r) => {
-					const receiptTotal = r.items.reduce(
-						(sum, item) => sum + item.price * item.quantity,
-						0
-					);
+									<p>Items:</p>
+									<ul>
+										{r.items.map((item) => (
+											<li key={item["item-uuid"]}>
+												{item.name} — ${item.price} ×{" "}
+												{item.quantity}
+											</li>
+										))}
+									</ul>
 
-					return (
-						<div className="receipt-card" key={r["receipt-uuid"]}>
-							<p>Date: {formatDate(r.date)}</p>
-							<p>
-								Store: ({r.chainName}) {r.store.address}
-							</p>
-
-							<p>Items:</p>
-							<ul>
-								{r.items.map((item) => (
-									<li key={item["item-uuid"]}>
-										{item.name} — ${item.price} ×{" "}
-										{item.quantity}
-									</li>
-								))}
-							</ul>
-
-							<p className="receipt-total">
-								Total: ${receiptTotal.toFixed(2)}
-							</p>
-						</div>
-					);
-				})}
+									<p className="receipt-total">
+										Total: ${receiptTotal.toFixed(2)}
+									</p>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+				<div className="search-history">
+					<h2 className="review-history">Search History</h2>
+					<input type="text" onChange={(e) => { filter(e.target.value); }} />
+					<table className="table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Price</th>
+								<th>Store Address</th>
+							</tr>
+						</thead>
+						<tbody>
+							{filteredItems.map((i) => {
+								return <tr key={i["item-uuid"]}>
+									<td>{i.name}</td>
+									<td>{i.price}</td>
+								</tr>
+							})}
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	);

@@ -9,17 +9,23 @@ import RegisterShopper from './components/register-shopper/RegisterShopper';
 import ShopperDashboard from './components/shopper-dashboard/ShopperDashboard';
 import AdminDashboard from './components/admin-dashboard/AdminDashboard';
 
+import "./page.css";
+
 export default function Home() {
-	const [state, setState] = useState<ViewState>("register-shopper");
+	const [state, setState] = useState<ViewState>("login-shopper");
+
+	const getState = () => {
+		return state;
+	}
 
 	const displayComponent = (state: ViewState ) => {
 		switch (state) {
 			case "register-shopper":
 				return <RegisterShopper setState={setState} />;
-			case "receipt":
-				return <Receipt />;
 			case "login-shopper":
 				return <LoginShopper setState={setState} />;
+			case "receipt":
+				return <Receipt />;
 			case "shopping-list":
 				return <ShoppingLists />;
 			case "shopper-dashboard":
@@ -33,17 +39,28 @@ export default function Home() {
 
 	return (
 		<>
-			<select
-				onChange={(e) => setState(e.target.value as ViewState)}
-				value={state}
-			>
-				<option value="register-shopper">Register Shopper</option>
-				<option value="login-shopper">Login Shopper</option>
-				<option value="shopping-list">Shopping List</option>
-				<option value="receipt">Receipt</option>
-				<option value="shopper-dashboard">Shopper Dashboard</option>
-				<option value="admin-dashboard">Admin Dashboard</option>
-			</select>
+			{(state == "login-shopper" || state == "register-shopper") ?
+				<></> :
+				<nav className="nav">
+					<button
+						className={state == "receipt" ? "selected" : ""}
+						onClick={() => {
+							setState("receipt");
+						}}>Receipts</button>
+
+					<button
+						className={state == "shopping-list" ? "selected" : ""}
+						onClick={() => {
+							setState("shopping-list");
+						}}>Shopping Lists</button>
+
+					<button
+						className={state == "shopper-dashboard" ? "selected" : ""}
+						onClick={() => {
+							setState("shopper-dashboard");
+						}}>Dashboard</button>
+				</nav>
+			}
 			{displayComponent(state)}
 		</>
 	);
