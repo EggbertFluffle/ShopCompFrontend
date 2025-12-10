@@ -18,7 +18,6 @@ export default function Dashboard() {
 			.then((response) => {
 				const data = JSON.parse(response.data.body);
 				const receipts = data.receipts;
-				filter("");
 				return receipts;
 			})
 			.catch((err) => {
@@ -83,6 +82,10 @@ export default function Dashboard() {
 			})
 	}, []);
 
+	useEffect(() => {
+		filter("");
+	}, [receipts]);
+
 	function formatDate(isoDate: string) {
 		const clean = isoDate.split("T")[0];
 		const [year, month, day] = clean.split("-");
@@ -104,6 +107,7 @@ export default function Dashboard() {
 		}
 		setFilteredItems(out);
 	}
+
 
 	return (
 		<div>

@@ -33,6 +33,7 @@ export default function AdminDashboard() {
 
     return (
         <div>
+			<h2>Admin Dashboard</h2>
             <label>Store Chain Sales</label>
             <div>
 				{salesList.map((item: any, index: number) => (

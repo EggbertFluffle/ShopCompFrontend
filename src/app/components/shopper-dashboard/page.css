@@ -71,6 +71,7 @@
 .container {
 	display: flex;
 	margin-inline: 5rem;
+	margin-top: 2rem;
 	flex-direction: row;
 	align-content: space-between;
 }
@@ -102,6 +103,7 @@
 .search-input > input {
 	background-color: #1f1f1f;
 	border: solid white 3px;
+	color: white;
 	border-radius: 3px;
 	font-size: inherit;
 }
@@ -114,8 +116,8 @@ h2 {
 
 .table > thead > tr > th,
 .table > tbody > tr > td {
-	border: 3px solid white;
-	/* padding-inline: 1rem; */
+	border: 1px solid white;
+	padding-inline: 1rem;
 	height: 0.25rem;
 }
 
