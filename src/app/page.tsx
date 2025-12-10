@@ -71,10 +71,13 @@ export default function Home() {
 							}
 							onClick={() => {
 								setState("shopper-dashboard");
-							}}
-						>
-							Dashboard
-						</button>
+							}}>Dashboard</button>
+
+						<button
+							className={state == "admin-dashboard" ? "selected" : ""}
+							onClick={() => {
+								setState("admin-dashboard");
+							}}>Admin Dashboard</button>
 					</nav>
 				</div>
 			)}
@@ -82,3 +85,4 @@ export default function Home() {
 		</>
 	);
 }
+
