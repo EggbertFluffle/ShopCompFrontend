@@ -40,6 +40,20 @@
     transform: translateY(-2px);
 }
 
+.receipts-container {
+	flex-grow: 1;
+}
+
+.receipts-inner-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: #1f1f1f;
+	border: solid white 1px;
+	border-radius: 6px;
+}
+
 .receipt-card {
     background: #1e1e1e;
     border: 1px solid #333;
@@ -47,7 +61,7 @@
     margin: 16px 0 8px 20px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    width: 60%;
+    width: 75%;
 }
 
 .receipt-total{
@@ -56,30 +70,56 @@
 
 .container {
 	display: flex;
+	margin-inline: 5rem;
 	flex-direction: row;
+	align-content: space-between;
+}
+
+.search-history-container {
+	flex-grow: 1;
+	margin-left: 1rem;
 }
 
 .search-history {
-	flex-grow: 1;
 	background: #1f1f1f;
-	padding: 1rem 1rem 0 1rem;
-	border-style: solid;
+	padding: 2rem;
+	border: solid white 1px;
 	border-radius: 6px;
-	border-color: #ffffff;
-	border-width: 1px;
 	height: max-content;
-	margin-left: auto;
+}
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 1rem;
+}
+
+.search-input {
+	font-size: 1.2rem;
+	color: inherit;
+}
+
+.search-input > input {
+	background-color: #1f1f1f;
+	border: solid white 3px;
+	border-radius: 3px;
+	font-size: inherit;
+}
+
+h2 {
+	text-align: center;
+	font-size: 2rem;
+	margin: 0px;
 }
 
 .table > thead > tr > th,
 .table > tbody > tr > td {
 	border: 3px solid white;
-	border-radius: 6px;
-	padding-inline: 1rem;
+	/* padding-inline: 1rem; */
 	height: 0.25rem;
 }
 
 .other-thing {
 	flex-grow: 1;
+	margin-right: 1rem;
 }
-

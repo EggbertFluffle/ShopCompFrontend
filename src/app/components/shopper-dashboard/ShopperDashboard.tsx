@@ -2,7 +2,6 @@
 import "./page.css";
 
 import { useState, useEffect } from "react";
-import { ViewState } from "./components/lib/types";
 import { instance } from "../lib/Endpoint";
 import { shopper } from "../lib/Shopper";
 
@@ -11,7 +10,7 @@ export default function Dashboard() {
 	const [activityTotal, setActivityTotal] = useState(0);
 	const [period, setPeriod] = useState("all-time");
 
-	function reviewHistory(shopperUUID: string) {
+	const reviewHistory = async (shopperUUID: string) => {
 		return instance
 			.post("review-history", {
 				"shopper-uuid": shopperUUID,
@@ -19,6 +18,7 @@ export default function Dashboard() {
 			.then((response) => {
 				const data = JSON.parse(response.data.body);
 				const receipts = data.receipts;
+				filter("");
 				return receipts;
 			})
 			.catch((err) => {
@@ -26,6 +26,13 @@ export default function Dashboard() {
 				return [];
 			});
 	}
+
+	useEffect(() => {
+		reviewHistory(shopper.uuid)
+			.then((list) => {
+				setReceipts(list);
+			})
+	}, []);
 
 	function reviewActivity(shopperUUID: string, timePeriod: string) {
 		return reviewHistory(shopperUUID).then((receipts) => {
@@ -78,20 +85,16 @@ export default function Dashboard() {
 		return `${month}/${day}/${year}`;
 	}
 
-	useEffect(() => {
-		reviewActivity(shopper.uuid, "all-time").then((total) => {
-			setActivityTotal(total);
-		});
-	}, []);
-
 	let [filteredItems, setFilteredItems] = useState([]);
 	const filter = (search: string) => {
 		let out = [];
 		for(let r of receipts) {
 			for(let i of r.items) {
 				const name: string = i.name;
-				if(name.includes(search)) {
-					out.push(i);
+				if(search == "" || name.includes(search)) {
+					let item = i;
+					i.storeAddress = r.store.address;
+					out.push(item);
 				}
 			}
 		}
@@ -100,41 +103,32 @@ export default function Dashboard() {
 
 	return (
 		<div>
-			<h1 className="username">Shopper: {shopper.username}</h1>
+			{/* <h1 className="username">Shopper: {shopper.username}</h1> */}
+			<h2 className="review-activity">Review Activity for
+				<select
+					className="review-period-select"
+					value={period}
+					onChange={(e) => {
+						const p = e.target.value;
+						setPeriod(p);
+
+						reviewActivity(shopper.uuid, p).then((total) => {
+							setActivityTotal(total);
+						});
+					}}
+				>
+					<option value="all-time">All Time</option>
+					<option value="last-day">Last Day</option>
+					<option value="last-week">Last Week</option>
+					<option value="last-month">Last Month</option>
+				</select>
+				spending: ${activityTotal.toFixed(2)}
+			</h2>
 			<div className="container">
 				<div className="other-thing">
-					<h2 className="review-activity">Review Activity:</h2>
-					<select
-						className="review-period-select"
-						value={period}
-						onChange={(e) => {
-							const p = e.target.value;
-							setPeriod(p);
-
-							reviewActivity(shopper.uuid, p).then((total) => {
-								setActivityTotal(total);
-							});
-						}}
-					>
-						<option value="all-time">All Time</option>
-						<option value="last-day">Last Day</option>
-						<option value="last-week">Last Week</option>
-						<option value="last-month">Last Month</option>
-					</select>
-					<p className="total-spending">Total Spending: ${activityTotal.toFixed(2)}</p>
-
-					<button
-						className="review-history-button"
-						onClick={() => {
-							reviewHistory(shopper.uuid).then((list) => {
-								setReceipts(list);
-							});
-						}}
-					>
-						Review History
-					</button>
-
-					<div>
+					<div className="receipts-container">
+						<h2>Receipt History</h2>
+						<div className="receipts-inner-container">
 						{receipts.map((r) => {
 							const receiptTotal = r.items.reduce(
 								(sum, item) => sum + item.price * item.quantity,
@@ -164,28 +158,32 @@ export default function Dashboard() {
 								</div>
 							);
 						})}
+						</div>
 					</div>
 				</div>
-				<div className="search-history">
+				<div className="search-history-container">
 					<h2 className="review-history">Search History</h2>
-					<input type="text" onChange={(e) => { filter(e.target.value); }} />
-					<table className="table">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Price</th>
-								<th>Store Address</th>
-							</tr>
-						</thead>
-						<tbody>
-							{filteredItems.map((i) => {
-								return <tr key={i["item-uuid"]}>
-									<td>{i.name}</td>
-									<td>{i.price}</td>
+					<div className="search-history">
+						<label className="search-input">Search: <input type="text" onChange={(e) => { filter(e.target.value); }} /></label>
+						<table className="table">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Price</th>
+									<th>Store Address</th>
 								</tr>
-							})}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{filteredItems.map((i) => {
+									return <tr key={i["item-uuid"]}>
+										<td>{i.name}</td>
+										<td>{i.price}</td>
+										<td>{i.storeAddress}</td>
+									</tr>
+								})}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
