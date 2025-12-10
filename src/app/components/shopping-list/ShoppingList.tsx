@@ -81,7 +81,7 @@ export default function ShoppingList({
 						}}
 					>
 						{list["name"]}&nbsp;&nbsp;
-						{!editing ? <button>&#x270E;</button> : ""}
+						{!editing ? <button className="edit-button">Edit</button> : ""}
 					</span>
 				)}
 			</h3>

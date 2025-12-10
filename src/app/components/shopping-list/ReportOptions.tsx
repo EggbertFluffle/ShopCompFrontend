@@ -29,6 +29,8 @@ export default function ReportOptions({
 }) {
   if (!items || items.length === 0) {
     return <div>Report options from a shopping list to see options</div>;
+
+    //vhat?
   }
   return (
     <>
