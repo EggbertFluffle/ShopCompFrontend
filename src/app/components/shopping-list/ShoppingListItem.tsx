@@ -43,14 +43,16 @@ export default function ReceiptItem({
 	}, [item]);
 
 	return (
-		<div>
+		<div className="single-item">
 			{editingName ? (
 				<div>
 					<input
+						className="shopping-list-name-input"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 					/>
 					<button
+						className="shopping-list-item-action-button"
 						onClick={() => {
 							// only commit if changed
 							if (name !== item.name) {
@@ -70,6 +72,7 @@ export default function ReceiptItem({
 						Save
 					</button>
 					<button
+						className="shopping-list-item-action-button"
 						onClick={() => {
 							setName(item.name); // revert changes
 							setEditingName(false);
@@ -88,19 +91,25 @@ export default function ReceiptItem({
 						}
 					}}
 				>
-					{name}
-					{!editing ? <button>&#x270E;</button> : ""}
+					{name}&nbsp;&nbsp;
+					{!editing ? (
+						<button className="edit-button">Edit</button>
+					) : (
+						""
+					)}
 				</div>
 			)}
 			<div>
 				{editingQuantity ? (
 					<div>
 						<input
+							className="shopping-list-name-input"
 							type="number"
 							value={quantityStr}
 							onChange={(e) => setQuantityStr(e.target.value)}
 						/>
 						<button
+							className="shopping-list-item-action-button"
 							onClick={() => {
 								const quantity = parseInt(quantityStr) || 0;
 								if (
@@ -123,6 +132,7 @@ export default function ReceiptItem({
 							Save
 						</button>
 						<button
+							className="shopping-list-item-action-button"
 							onClick={() => {
 								setQuantityStr(String(item.quantity)); // revert changes
 								setEditingQuantity(false);
@@ -139,12 +149,17 @@ export default function ReceiptItem({
 							setEditing(true);
 						}}
 					>
-						Quantity: {item.quantity}
-						{!editing ? <button>&#x270E;</button> : ""}
+						Quantity: {item.quantity}&nbsp;&nbsp;
+						{!editing ? (
+							<button className="edit-button">Edit</button>
+						) : (
+							""
+						)}
 					</span>
 				)}
 			</div>
 			<button
+				className="edit-button"
 				onClick={() => {
 					if (editing && (editingName || editingQuantity)) {
 						setEditing(false);
@@ -152,7 +167,7 @@ export default function ReceiptItem({
 					removeItem(item, shoppingListUUID, shoppingListName);
 				}}
 			>
-				&#x1F5D1;
+				Remove
 			</button>
 		</div>
 	);

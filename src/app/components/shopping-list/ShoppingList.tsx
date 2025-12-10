@@ -38,35 +38,55 @@ export default function ShoppingList({
 	const [newName, setNewName] = useState(list["name"]);
 
 	return (
-		<div>
-			<h3>
-				{
-					editingName ? (
-						<span>
-							<input
-								value={newName}
-								onChange={(e) => setNewName(e.target.value)}
-							/>
-							<button onClick={() => {
-								modifyListName(list["shopping-list-uuid"], newName);
+		<div className="shopping-list">
+			<h3 className="shopping-list-title">
+				{editingName ? (
+					<span>
+						<input
+							className="shopping-list-name-input"
+							value={newName}
+							onChange={(e) => setNewName(e.target.value)}
+						/>
+						<button
+							className="shopping-list-name-action-button"
+							onClick={() => {
+								modifyListName(
+									list["shopping-list-uuid"],
+									newName
+								);
 								setEditingName(false);
 								setEditing(false);
-							}}>Save</button>
-							<button onClick={() => {
+							}}
+						>
+							Save
+						</button>
+						<button
+							className="shopping-list-name-action-button"
+							onClick={() => {
 								setNewName(list["name"]);
 								setEditingName(false);
 								setEditing(false);
-							}}>Cancel</button>
-						</span>
-					) : (
-						<span onClick={() => {if (!editing) {setEditingName(true); setEditing(true);}}}>
-							{list["name"]}{!editing ? (<button>&#x270E;</button>) : ""}
-						</span>
-					)
-				}
+							}}
+						>
+							Cancel
+						</button>
+					</span>
+				) : (
+					<span
+						onClick={() => {
+							if (!editing) {
+								setEditingName(true);
+								setEditing(true);
+							}
+						}}
+					>
+						{list["name"]}&nbsp;&nbsp;
+						{!editing ? <button className="edit-button">Edit</button> : ""}
+					</span>
+				)}
 			</h3>
 			<div>
-				<ul>
+				<ul className="single-item-box">
 					{list.items.map((item: Item) => (
 						<ShoppingListItem
 							key={item["item-uuid"]}
@@ -80,23 +100,39 @@ export default function ShoppingList({
 						/>
 					))}
 				</ul>
-				<button onClick={
-					() => addItem(list["shopping-list-uuid"], list["name"])}>
-						Add Item
+				<div className="list-buttons">
+				<button
+					className="action-button"
+					onClick={() =>
+						addItem(list["shopping-list-uuid"], list["name"])
+					}
+				>
+					Add Item
 				</button>
-				<button onClick={
-					() => {
+				<button
+					className="action-button"
+					onClick={() => {
 						if (editing && editingName) {
 							setEditing(false);
 						}
-						deleteList(list["shopping-list-uuid"], list["name"])
-					}}>
-						Delete List
+						deleteList(list["shopping-list-uuid"], list["name"]);
+					}}
+				>
+					Delete List
 				</button>
-				<button onClick={
-					() => reportOptions(list["shopping-list-uuid"], list["name"], list.items)}>
-						Report Options
+				<button
+					className="action-button"
+					onClick={() =>
+						reportOptions(
+							list["shopping-list-uuid"],
+							list["name"],
+							list.items
+						)
+					}
+				>
+					Report Options
 				</button>
+				</div>
 			</div>
 		</div>
 	);

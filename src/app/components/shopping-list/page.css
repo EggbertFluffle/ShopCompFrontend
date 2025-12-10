@@ -1,0 +1,217 @@
+.shopping-list-lists {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+}
+
+.shopping-list {
+    background-color: #1f1f1f;
+    margin: 1rem 0 1rem 1rem;
+    padding: 0.4rem 0.4rem 0.4rem 0.4rem;
+    border-style: solid;
+    border-color: white;
+    border-radius: 6px;
+    border-width: 1px;
+    width: 30rem;
+}
+
+.shopping-list-lists ul {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.shopping-list-title{
+    background-color: #1f1f1f;
+    margin: 0.4rem 0.4rem 1rem 0.4rem;
+    padding: 0.4rem 0.8rem 0.4rem 0.8rem;
+    border-style: solid;
+    border-color: white;
+    border-radius: 4px;
+    border-width: 1px;
+}
+
+.action-button {
+    margin-bottom: 0.6rem;
+    background-color: #1f1f1f;
+    border-radius: 4px;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    color: white;
+    padding: 0.3rem 1rem 0.3rem 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.list-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    flex-direction:row;
+}
+
+.action-button:hover {
+    background-color: #393939;
+    transform: translateY(-2px);
+}
+
+.create-new-shopping-list-button {
+    margin: 1rem 0rem 0rem 1rem;
+    background-color: #1f1f1f;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    color: white;
+    padding: 0.3rem 1.4rem 0.3rem 1.4rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.create-new-shopping-list-button:hover {
+    background-color: #393939;
+    transform: translateY(-2px);
+}
+
+.shopping-list-name-input{
+    padding: 0.3rem 0.2rem 0.3rem 0.4rem;
+
+    background-color: #393939;
+    border-color: #ffffff;
+    border-style: solid;
+    border-radius: 3px;
+    border-width: 1px;
+    color: #ffffff;
+}
+
+.shopping-list-name-action-button {
+    margin-left: 1rem;
+    background-color: white;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    color: #1f1f1f;
+    padding: 0.3rem 1.2rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.5s ease,
+        color 0.5s ease,
+        transform 0.15s ease;
+}
+
+.shopping-list-name-action-button:hover {
+    background-color: #1f1f1f;
+    border-style: solid;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.single-item{
+    background-color: #393939;
+    width: 16rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+}
+
+.shopping-list-item-action-button {
+    margin-right: 0.2rem;
+    background-color: white;
+    border-radius: 2px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    color: #1f1f1f;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.5s ease,
+        color 0.5s ease,
+        transform 0.15s ease;
+}
+
+.shopping-list-item-action-button:hover {
+    background-color: #1f1f1f;
+    border-style: solid;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.edit-button {
+    margin: 0.2rem 0 0.2rem 0;
+    background-color: #1f1f1f;
+    border-radius: 4px;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    color: white;
+    padding: 0.2rem 0.6rem 0.2rem 0.6rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.edit-button:hover {
+    background-color: #393939;
+    transform: translateY(-2px);
+}
+
+.option-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.option-modal-box {
+    padding: 1.4rem 0 1rem 1.4rem;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    background-color: #1f1f1f;
+    color: #ffffff;
+    min-width: 300px;
+    max-width: 400px;
+}
+
+.exit-button {
+    margin-top: 1rem;
+    background-color: white;
+    border-radius: 4px;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    color: #1f1f1f;
+    padding: 0.2rem 0.6rem 0.2rem 0.6rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
+}
+
+.exit-button:hover {
+    background-color: #393939;
+    transform: translateY(-2px);
+    color: white;
+}
+
+.options-header{
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.single-option{
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+}

@@ -161,48 +161,76 @@ export default function ShoppingLists() {
 				console.error(err);
 			});
 	};
-	const reportOptions = (shoppingListUUID: string, shoppingListName: string, items: any[]) => {
-		instance.post("report-options-for-shopping-list", {
-			"shopper-uuid": shopper.uuid,
-			"shopper-username": shopper.username,
-			"shopping-list-uuid": shoppingListUUID,
-			"shopping-list-name": shoppingListName,
-			"items": items
-		}).then((response) => {
-			setOptions(response["data"]["items"]);
-		}).catch((err) => {
-			console.error(err);
-		});
+	const reportOptions = (
+		shoppingListUUID: string,
+		shoppingListName: string,
+		items: any[]
+	) => {
+		instance
+			.post("report-options-for-shopping-list", {
+				"shopper-uuid": shopper.uuid,
+				"shopper-username": shopper.username,
+				"shopping-list-uuid": shoppingListUUID,
+				"shopping-list-name": shoppingListName,
+				items: items,
+			})
+			.then((response) => {
+				setOptions(response["data"]["items"]);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	};
+	const onClose = () => {
+		setOptions([]);
 	};
 	return (
 		<div>
-			{ shopper.uuid ? lists &&
-			<>
-				<div>
-					{lists.map((list) => (
-						<ShoppingList
-							key={list["shopping-list-uuid"]}
-							list={list}
-							modifyItem={modifyItem}
-							removeItem={removeItem}
-							addItem={addItem}
-							deleteList={deleteList}
-							modifyListName={modifyListName}
-							editing={isEditing}
-							setEditing={setIsEditing}
-							reportOptions={reportOptions}
-						/>
-					))}
-					<button onClick={() => {
-						createNewList();
-					}}>Create New Shopping List</button>
-				</div>
-				<div>
-					<ReportOptions items={options}/>
-				</div>
-			</>
-			: <p>Please log in to view your shopping lists.</p>
-			}
+			{shopper.uuid ? (
+				lists && (
+					<>
+						<div className="shopping-list-lists">
+							<button
+								className="create-new-shopping-list-button"
+								onClick={() => {
+									createNewList();
+								}}
+							>
+								Create New Shopping List
+							</button>
+							{lists.map((list) => (
+								<ShoppingList
+									key={list["shopping-list-uuid"]}
+									list={list}
+									modifyItem={modifyItem}
+									removeItem={removeItem}
+									addItem={addItem}
+									deleteList={deleteList}
+									modifyListName={modifyListName}
+									editing={isEditing}
+									setEditing={setIsEditing}
+									reportOptions={reportOptions}
+								/>
+							))}
+						</div>
+						{options.length > 0 && (
+							<div className="option-modal-overlay">
+								<div className="option-modal-box">
+									<ReportOptions items={options} />
+									<button
+										className="exit-button"
+										onClick={onClose}
+									>
+										Exit
+									</button>
+								</div>
+							</div>
+						)}
+					</>
+				)
+			) : (
+				<p>Please log in to view your shopping lists.</p>
+			)}
 		</div>
 	);
 }
