@@ -40,30 +40,44 @@ export default function Home() {
 
 	return (
 		<>
-			{(state == "login-shopper" || state == "register-shopper") ?
-				<></> :
-				<div className="container">
+			{state == "login-shopper" || state == "register-shopper" ? (
+				<></>
+			) : (
+				<div className="nav-bar">
 					<nav className="nav">
 						<button
 							className={state == "receipt" ? "selected" : ""}
 							onClick={() => {
 								setState("receipt");
-							}}>Receipts</button>
+							}}
+						>
+							Receipts
+						</button>
 
 						<button
-							className={state == "shopping-list" ? "selected" : ""}
+							className={
+								state == "shopping-list" ? "selected" : ""
+							}
 							onClick={() => {
 								setState("shopping-list");
-							}}>Shopping Lists</button>
+							}}
+						>
+							Shopping Lists
+						</button>
 
 						<button
-							className={state == "shopper-dashboard" ? "selected" : ""}
+							className={
+								state == "shopper-dashboard" ? "selected" : ""
+							}
 							onClick={() => {
 								setState("shopper-dashboard");
-							}}>Dashboard</button>
+							}}
+						>
+							Dashboard
+						</button>
 					</nav>
 				</div>
-			}
+			)}
 			{displayComponent(state)}
 		</>
 	);
