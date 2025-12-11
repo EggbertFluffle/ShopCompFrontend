@@ -85,13 +85,12 @@ export default function AdminDashboard() {
 	const removeChain= (chainUUID: string) => {
 		const payload = {
 			"admin-uuid": shopper.uuid,
-			"store-uuid": chainUUID
+			"chain-uuid": chainUUID
 		};
 
 		instance.post("remove-chain", payload)
 			.then(() => { fetchChains(); })
 			.catch((e) => {
-				console.error("Unable to remove a store");
 				console.error(e);
 			})
 	}
@@ -125,7 +124,8 @@ export default function AdminDashboard() {
 							return <div key={chain["chain-uuid"]} className="store-chain">
 								<h3>
 									<a className="chain-name" href={chain.url}>{chain.name}</a>&nbsp;|&nbsp;
-									<button className="chain-remove-button" onChange={(e) => {
+									<button className="chain-remove-button" onClick={(e) => {
+										console.log("removing chain");
 										removeChain(chain["chain-uuid"]);
 									}}>Remove Chain</button>
 								</h3>
