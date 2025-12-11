@@ -1,14 +1,30 @@
 "use client";
 import "./page.css";
-
 import { useState, useEffect } from "react";
 import { instance } from "../lib/Endpoint";
 import { shopper } from "../lib/Shopper";
 
 export default function Dashboard() {
+	const getDefaultDates = () => {
+		const today = new Date();
+		const oneMonthAgo = new Date();
+		oneMonthAgo.setMonth(today.getMonth() - 1);
+
+		const formatDateForInput = (date: Date) => {
+			return date.toISOString().split('T')[0];
+		};
+
+		return {
+			start: formatDateForInput(oneMonthAgo),
+			end: formatDateForInput(today)
+		};
+	};
+
+	const defaultDates = getDefaultDates();
 	const [receipts, setReceipts] = useState([]);
 	const [activityTotal, setActivityTotal] = useState(0);
-	const [period, setPeriod] = useState("all-time");
+	const [startDate, setStartDate] = useState(defaultDates.start);
+	const [endDate, setEndDate] = useState(defaultDates.end);
 
 	const reviewHistory = async (shopperUUID: string) => {
 		return instance
@@ -26,38 +42,19 @@ export default function Dashboard() {
 			});
 	}
 
-	function reviewActivity(shopperUUID: string, timePeriod: string) {
+	function reviewActivity(shopperUUID: string, start: string, end: string) {
 		return reviewHistory(shopperUUID).then((receipts) => {
-			const now = new Date();
-
 			function inRange(dateString: string) {
 				const d = new Date(dateString);
+				const startD = start ? new Date(start) : null;
+				const endD = end ? new Date(end) : null;
 
-				if (timePeriod === "last-day") {
-					const oneDayAgo = new Date(
-						now.getTime() - 24 * 60 * 60 * 1000
-					);
-					return d >= oneDayAgo;
-				}
-
-				if (timePeriod === "last-week") {
-					const oneWeekAgo = new Date(
-						now.getTime() - 7 * 24 * 60 * 60 * 1000
-					);
-					return d >= oneWeekAgo;
-				}
-
-				if (timePeriod === "last-month") {
-					const oneMonthAgo = new Date();
-					oneMonthAgo.setMonth(now.getMonth() - 1);
-					return d >= oneMonthAgo;
-				}
-
+				if (startD && d < startD) return false;
+				if (endD && d > endD) return false;
 				return true;
 			}
 
 			const filtered = receipts.filter((r) => inRange(r.date));
-
 			const total = filtered.reduce((sum, r) => {
 				return (
 					sum +
@@ -66,13 +63,12 @@ export default function Dashboard() {
 					}, 0)
 				);
 			}, 0);
-
 			return total;
 		});
 	}
 
 	useEffect(() => {
-		reviewActivity(shopper.uuid, "all-time")
+		reviewActivity(shopper.uuid, startDate, endDate)
 			.then((total) => {
 				setActivityTotal(total);
 			});
@@ -86,6 +82,12 @@ export default function Dashboard() {
 		filter("");
 	}, [receipts]);
 
+	useEffect(() => {
+		reviewActivity(shopper.uuid, startDate, endDate).then((total) => {
+			setActivityTotal(total);
+		});
+	}, [startDate, endDate]);
+
 	function formatDate(isoDate: string) {
 		const clean = isoDate.split("T")[0];
 		const [year, month, day] = clean.split("-");
@@ -93,6 +95,7 @@ export default function Dashboard() {
 	}
 
 	let [filteredItems, setFilteredItems] = useState([]);
+
 	const filter = (search: string) => {
 		let out = [];
 		for(let r of receipts) {
@@ -108,29 +111,30 @@ export default function Dashboard() {
 		setFilteredItems(out);
 	}
 
-
 	return (
 		<div>
-			{/* <h1 className="username">Shopper: {shopper.username}</h1> */}
-			<h2 className="review-activity">Review Activity for
-				<select
-					className="review-period-select"
-					value={period}
-					onChange={(e) => {
-						const p = e.target.value;
-						setPeriod(p);
-
-						reviewActivity(shopper.uuid, p).then((total) => {
-							setActivityTotal(total);
-						});
-					}}
-				>
-					<option value="all-time">All Time</option>
-					<option value="last-day">Last Day</option>
-					<option value="last-week">Last Week</option>
-					<option value="last-month">Last Month</option>
-				</select>
-				spending: ${activityTotal.toFixed(2)}
+			<h2 className="review-activity">Review Activity
+				<div className="date-range-inputs">
+					<label>
+						Start Date:
+						<input
+							className="date-picker"
+							type="date"
+							value={startDate}
+							onChange={(e) => setStartDate(e.target.value)}
+						/>
+					</label>
+					<label>
+						End Date:
+						<input
+							className="date-picker"
+							type="date"
+							value={endDate}
+							onChange={(e) => setEndDate(e.target.value)}
+						/>
+					</label>
+				</div>
+				Total spending: ${activityTotal.toFixed(2)}
 			</h2>
 			<div className="container">
 				<div className="other-thing">
@@ -142,14 +146,12 @@ export default function Dashboard() {
 								(sum, item) => sum + item.price * item.quantity,
 								0
 							);
-
 							return (
 								<div className="receipt-card" key={r["receipt-uuid"]}>
 									<p>Date: {formatDate(r.date)}</p>
 									<p>
 										Store: ({r.chainName}) {r.store.address}
 									</p>
-
 									<p>Items:</p>
 									<ul>
 										{r.items.map((item) => (
@@ -159,7 +161,6 @@ export default function Dashboard() {
 											</li>
 										))}
 									</ul>
-
 									<p className="receipt-total">
 										Total: ${receiptTotal.toFixed(2)}
 									</p>
