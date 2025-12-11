@@ -13,6 +13,7 @@
 
 .receipt-main{
     margin: 1rem 0 0 1rem;
+	flex-grow: 1;
 }
 
 .date-picker {
@@ -232,6 +233,7 @@
 }
 
 .store-panel {
+	flex-grow: 1;
     background: #1f1f1f;
     padding: 1rem 1rem 0 1rem;
     border-style: solid;
