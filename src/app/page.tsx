@@ -6,20 +6,33 @@ import LoginShopper from './components/login-shopper/LoginShopper';
 import ShoppingLists from './components/shopping-list/ShoppingLists';
 import Receipt from './components/receipt/Receipt';
 import RegisterShopper from './components/register-shopper/RegisterShopper';
+import ShopperDashboard from './components/shopper-dashboard/ShopperDashboard';
+import AdminDashboard from './components/admin-dashboard/AdminDashboard';
+
+import { shopper } from './components/lib/Shopper';
+import "./page.css";
 
 export default function Home() {
-	const [state, setState] = useState<ViewState>("register-shopper");
+	const [state, setState] = useState<ViewState>("login-shopper");
+
+	const getState = () => {
+		return state;
+	}
 
 	const displayComponent = (state: ViewState ) => {
 		switch (state) {
 			case "register-shopper":
 				return <RegisterShopper setState={setState} />;
-			case "receipt":
-				return <Receipt />;
 			case "login-shopper":
 				return <LoginShopper setState={setState} />;
+			case "receipt":
+				return <Receipt />;
 			case "shopping-list":
 				return <ShoppingLists />;
+			case "shopper-dashboard":
+				return <ShopperDashboard />;
+			case "admin-dashboard":
+				return <AdminDashboard />;
 			default:
 				return <div>Invalid State</div>;
 		}
@@ -27,13 +40,59 @@ export default function Home() {
 
 	return (
 		<>
-			<select onChange={(e) => setState(e.target.value as ViewState)} value={state}>
-				<option value="register-shopper">Register Shopper</option>
-				<option value="login-shopper">Login Shopper</option>
-				<option value="shopping-list">Shopping List</option>
-				<option value="receipt">Receipt</option>
-			</select>
+			<img className="rho" src="/rho.png" alt="Logo" />
+			{state == "login-shopper" || state == "register-shopper" ? (
+				<></>
+			) : (
+				<div className="nav-bar">
+					<nav className="nav">
+						<button
+							className={state == "receipt" ? "selected" : ""}
+							onClick={() => {
+								setState("receipt");
+							}}
+						>
+							Receipts
+						</button>
+						<button
+							className={
+								state == "shopping-list" ? "selected" : ""
+							}
+							onClick={() => {
+								setState("shopping-list");
+							}}
+						>
+							Shopping Lists
+						</button>
+						<button
+							className={
+								state == "shopper-dashboard" ? "selected" : ""
+							}
+							onClick={() => {
+								setState("shopper-dashboard");
+							}}
+						>
+							Dashboard
+						</button>
+						{shopper.username == "admin" ? (
+							<button
+								className={
+									state == "admin-dashboard" ? "selected" : ""
+								}
+								onClick={() => {
+									setState("admin-dashboard");
+								}}
+							>
+								Admin Dashboard
+							</button>
+						) : (
+							<></>
+						)}
+					</nav>
+				</div>
+			)}
 			{displayComponent(state)}
 		</>
 	);
 }
+

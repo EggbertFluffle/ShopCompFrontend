@@ -24,27 +24,21 @@ export default function ReportOptionItem({ option }: { option: Option }) {
   const storeChain = option.receipt["store-chain-name"];
   const storeChainUrl = option.receipt["store-chain-url"];
   return (
-    <div>
-		<div>{option.name}</div>
-		<div>
-			Price: {price}
+		<div className="single-option">
+			<div>
+				{option.name} - ${price}
+			</div>
+			<div>
+				<a
+					href={storeChainUrl}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					{storeChain}
+				</a>
+				&nbsp;({storeAddress})&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
 		</div>
-		<div>
-			Quantity: {quantity}
-		</div>
-		<div>
-			Receipt: {receiptDate} · Store Chain: {storeChain}
-		</div>
-		<div>
-			Store Chain: {storeChain}
-		</div>
-		<div>
-			Address: {storeAddress}
-		</div>
-		<div>
-			Store Chain URL: <a href={storeChainUrl} target="_blank" rel="noopener noreferrer">{storeChainUrl}</a>
-		</div>
-    </div>
   );
 }
 

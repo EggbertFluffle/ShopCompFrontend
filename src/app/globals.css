@@ -1,0 +1,23 @@
+:root {
+    --bg-color: #121212;
+    --fg-color: #e5e5e5;
+    --font-family: BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    background: var(--bg-color);
+    color: var(--fg-color);
+    font-family: var(--font-family);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
