@@ -2,7 +2,6 @@
 import "./page.css";
 
 import { useState, useEffect } from "react";
-import { ViewState } from "./components/lib/types";
 import { instance } from "../lib/Endpoint";
 import { shopper } from "../lib/Shopper";
 
