@@ -11,5 +11,6 @@ Things to know before you run (for the TAs)
 1. Refreshing the page will log the user out
 2. Admin Username: "admin"
 3. Admin Password: "password"
-4. When Anlyzing with AI, sometimes the AI does not return parsable JSON, 
+4. When Anlyzing with AI, sometimes the AI does not return parsable JSON,
                             so you might have to try it a couple of times.
+5. Store chain links, in the receipts page, are accessed by clickin on the store name itself
