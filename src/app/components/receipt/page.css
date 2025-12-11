@@ -1,7 +1,7 @@
 .receipt-page {
     display: flex;
     gap: 2rem;
-	margin-inline: 5rem;
+	margin-inline: 1rem;
 }
 
 .receipt-items {
@@ -39,7 +39,11 @@
 }
 
 .buttons-container {
-	width: 75%;
+	width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .add-item-button{
@@ -110,7 +114,7 @@
 }
 
 .remove-button{
-    margin-top: 1rem;
+    margin-block: 1rem;
     background-color: #393939;
 	border: solid white 1px;
     border-radius: 6px;
