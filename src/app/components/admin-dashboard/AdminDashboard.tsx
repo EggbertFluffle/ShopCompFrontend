@@ -106,37 +106,42 @@ export default function AdminDashboard() {
     return (
 		<div>
 			<h2>Admin Dashboard</h2>
-			<label>Store Chain Sales</label>
-			<div>
-				{salesList.map((item: any, index: number) => (
-					<p key={index}>
-						{item["chain-name"]}: $
-						{Number(item["total-sales"]).toFixed(2)}
-					</p>
-				))}
-			</div>
-			<div className="store-chains-container">
-				<h2>Store Chains</h2>
-				<div className="store-chains">
-					{chains.map((chain: ListedChain) => {
-						return <div className="store-chain">
-							<h3>{chain.name}</h3>
-							<h4><a href={chain.url}>{chain.url}</a></h4>
-							<ul className="chain-stores">
-								{chain.stores.map((store: ListedStore) => {
-									return <li className="store-chain-store">{store.address} |
-										<button className="remove-store-button" onClick={(e) => {
-											removeStore(store["store-uuid"]);
-										}}>remove
-										</button>
-									</li>
-								})}
-							</ul>
-							<button onChange={(e) => {
-								removeChain(chain["chain-uuid"]);
-							}}>Remove Chain</button>
-						</div>
-					})}
+			<div className="section-container">
+				<div className="sales-analysis-container">
+					<h2>Store Chain Sales</h2>
+					<div>
+						{salesList.map((item: any, index: number) => (
+							<p key={index}>
+								{item["chain-name"]}: $
+								{Number(item["total-sales"]).toFixed(2)}
+							</p>
+						))}
+					</div>
+				</div>
+				<div className="store-chains-container">
+					<h2>Store Chains</h2>
+					<div className="store-chains">
+						{chains.map((chain: ListedChain) => {
+							return <div key={chain["chain-uuid"]} className="store-chain">
+								<h3>
+									<a className="chain-name" href={chain.url}>{chain.name}</a>&nbsp;|&nbsp;
+									<button className="chain-remove-button" onChange={(e) => {
+										removeChain(chain["chain-uuid"]);
+									}}>Remove Chain</button>
+								</h3>
+								<ul className="chain-stores">
+									{chain.stores.length == 0 ? <p>No stores exist for this chain</p> : (
+										chain.stores.map((store: ListedStore) => {
+											return <li key={store["store-uuid"]} className="store-chain-store">{store.address}&nbsp;|&nbsp;											<button className="remove-store-button" onClick={(e) => {
+												removeStore(store["store-uuid"]);
+											}}>Remove Store</button>
+											</li>
+										})
+									)}
+								</ul>
+							</div>
+						})}
+					</div>
 				</div>
 			</div>
         </div>
