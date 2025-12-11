@@ -4,7 +4,12 @@ Team members:
 1. Harrison
 2. Nikita
 3. Bryce
-4. Andry (unc) HAPPY BIRTHDAY (our special birthday boy)
+4. Andry
 
-HAPPY BIRTHDAY ANDRY!!!
- -From Harrison and Nikita
+Things to know before you run (for the TAs)
+
+1. Refreshing the page will log the user out
+2. Admin Username: "admin"
+3. Admin Password: "password"
+4. When Anlyzing with AI, sometimes the AI does not return parsable JSON, 
+                            so you might have to try it a couple of times.
