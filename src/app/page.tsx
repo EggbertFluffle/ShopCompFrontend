@@ -40,6 +40,7 @@ export default function Home() {
 
 	return (
 		<>
+			<img className="rho" src="/rho.png" alt="Logo" />
 			{state == "login-shopper" || state == "register-shopper" ? (
 				<></>
 			) : (

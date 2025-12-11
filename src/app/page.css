@@ -40,3 +40,12 @@ button:hover {
     background-color: #444;
     transform: translateY(-2px);
 }
+
+.rho{
+    position: absolute;
+    width: 43px;
+    height: 43px;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    border-radius: 6px;
+}
