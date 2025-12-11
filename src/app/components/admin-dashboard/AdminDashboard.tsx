@@ -32,16 +32,17 @@ export default function AdminDashboard() {
 	}, []);
 
     return (
-        <div>
+		<div>
 			<h2>Admin Dashboard</h2>
-            <label>Store Chain Sales</label>
-            <div>
+			<label>Store Chain Sales</label>
+			<div>
 				{salesList.map((item: any, index: number) => (
 					<p key={index}>
-						{item["chain-name"]}: ${item["total-sales"]}
+						{item["chain-name"]}: $
+						{Number(item["total-sales"]).toFixed(2)}
 					</p>
 				))}
 			</div>
-        </div>
-    );
+		</div>
+	);
 }
