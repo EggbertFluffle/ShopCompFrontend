@@ -109,7 +109,7 @@ export default function AdminDashboard() {
 					<h2>Store Chain Sales</h2>
 					<div>
 						{salesList.map((item: any, index: number) => (
-							<p key={index}>
+							<p className="total-chain-sales" key={index}>
 								{item["chain-name"]}: $
 								{Number(item["total-sales"]).toFixed(2)}
 							</p>
