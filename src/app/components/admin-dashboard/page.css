@@ -1,5 +1,6 @@
 .section-container {
 	display: flex;
+	gap: 4rem;
 }
 
 .sales-analysis-container {
@@ -8,6 +9,7 @@
 
 .store-chains-container {
 	flex-grow: 1;
+	margin-right: 2rem;
 }
 
 .store-chain {
@@ -27,8 +29,6 @@
 	font-size: 1.5rem;
 }
 
-.store-chain-store { }
-
 .chain-remove-button,
 .remove-store-button {
 	font-size: 1rem;
@@ -36,4 +36,15 @@
 	border: white solid 1px;
 	border-radius: 5px;
 	margin: 0px;
+}
+
+.total-chain-sales{
+	margin: 1rem 0rem 1rem 2rem;
+	font-size: 1rem;
+	padding: 0.4rem 0.8rem 0.4rem 0.8rem;
+	background-color: #1f1f1f;
+	border-style: solid;
+	border-radius: 6px;
+	border-color: white;
+	border-width: 1px;
 }
