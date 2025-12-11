@@ -23,11 +23,11 @@ type ListedChain = {
 
 export default function Receipt() {
 	const [date, setDate] = useState(new Date().toISOString().split("T")[0]); //GPT
-	const [chains, setChains] = useState<ListedChain[]>([]);
 	const [storeUUID, setStoreUUID] = useState("");
 	const [items, setItems] = useState<Item[]>([]);
 	const [receiptError, setReceiptError] = useState("");
 	const [analyzingReceipt, setAnalyzingReceipt] = useState(false);
+	const [chains, setChains] = useState<ListedChain[]>([]);
 
 	const fetchChains = () => {
 		instance
@@ -163,6 +163,7 @@ export default function Receipt() {
 					value={date}
 					onChange={(e) => setDate(e.target.value)}
 				/></label>
+				<br/>
 				<label>Store: &nbsp;
 				<select
 					className="store-picker"
