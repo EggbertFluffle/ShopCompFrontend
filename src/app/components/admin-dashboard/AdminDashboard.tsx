@@ -28,9 +28,9 @@ export default function AdminDashboard() {
 				"admin-uuid": shopperUUID,
 			})
 			.then((response) => {
-				const data = JSON.parse(response.data.body);
-				const sales = data["sales-list"];
-				return sales;
+				const salesData = response.data["sales-list"];
+				console.log(salesData);
+				return salesData;
 			})
 			.catch((err) => {
 				console.error(err);
@@ -97,20 +97,21 @@ export default function AdminDashboard() {
 	}
 
     useEffect(() => {
-		reportStoreChainSales(shopper.uuid).then((sales) => {
-			setSalesList(sales);
+		reportStoreChainSales(shopper.uuid).then((salesData) => {
+			setSalesList(salesData);
 		});
 		fetchChains();
 	}, []);
 
     return (
-        <div>
+		<div>
 			<h2>Admin Dashboard</h2>
-            <label>Store Chain Sales</label>
-            <div>
+			<label>Store Chain Sales</label>
+			<div>
 				{salesList.map((item: any, index: number) => (
 					<p key={index}>
-						{item["chain-name"]}: ${item["total-sales"]}
+						{item["chain-name"]}: $
+						{Number(item["total-sales"]).toFixed(2)}
 					</p>
 				))}
 			</div>

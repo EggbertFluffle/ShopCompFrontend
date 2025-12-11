@@ -53,7 +53,6 @@ export default function Home() {
 						>
 							Receipts
 						</button>
-
 						<button
 							className={
 								state == "shopping-list" ? "selected" : ""
@@ -64,20 +63,30 @@ export default function Home() {
 						>
 							Shopping Lists
 						</button>
-
 						<button
 							className={
 								state == "shopper-dashboard" ? "selected" : ""
 							}
 							onClick={() => {
 								setState("shopper-dashboard");
-							}}>Dashboard</button>
-
-						<button
-							className={state == "admin-dashboard" ? "selected" : ""}
-							onClick={() => {
-								setState("admin-dashboard");
-							}}>Admin Dashboard</button>
+							}}
+						>
+							Dashboard
+						</button>
+						{shopper.username == "admin" ? (
+							<button
+								className={
+									state == "admin-dashboard" ? "selected" : ""
+								}
+								onClick={() => {
+									setState("admin-dashboard");
+								}}
+							>
+								Admin Dashboard
+							</button>
+						) : (
+							<></>
+						)}
 					</nav>
 				</div>
 			)}

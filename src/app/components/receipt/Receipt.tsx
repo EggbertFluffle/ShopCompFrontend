@@ -157,14 +157,13 @@ export default function Receipt() {
 			<div className="receipt-main">
 				<h2>Receipts</h2>
 				{receiptError != "" ? <p>{receiptError}</p> : <></>}
-				<label>Date: <input
+				<input
 					className="date-picker"
 					type="date"
 					value={date}
 					onChange={(e) => setDate(e.target.value)}
-				/></label>
-				<br/>
-				<label>Store: &nbsp;
+				/>
+
 				<select
 					className="store-picker"
 					name="Store"
@@ -189,7 +188,7 @@ export default function Receipt() {
 							});
 						})
 						.flat()}
-				</select></label>
+				</select>
 
 				<div className="receipt-items">
 					{items.map((el) => {
